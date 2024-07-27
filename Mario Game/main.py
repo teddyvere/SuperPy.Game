@@ -11,19 +11,18 @@ BACKGROUND_WIDTH = SCREEN_WIDTH
 
 # Colors
 WHITE = (255, 255, 255)
+BLACK = (0, 0, 0)
 
 # Initialize screen
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 pygame.display.set_caption("Super Mario Clone")
 
 # Load assets
-# (You'll need to provide your own Mario image or use Pygame's built-in shapes temporarily)
 mario_image = pygame.image.load('images/mario.png')
 zombie1_image = pygame.image.load('images/zombie1.png')
 og_background_image = pygame.image.load('images/background.png')
 background_image = pygame.transform.scale(og_background_image, (SCREEN_WIDTH, SCREEN_HEIGHT))
 
-# Player class
 class Player(pygame.sprite.Sprite):
     def __init__(self, x, y):
         super().__init__()
@@ -47,15 +46,16 @@ class Player(pygame.sprite.Sprite):
             self.velocity.x = self.speed
         else:
             self.velocity.x = 0
-# Handle jump
-        if self.on_ground and keys[pygame.K_w]:  # Jump only if on ground
+        
+        # Handle jump
+        if self.on_ground and keys[pygame.K_w]:
             self.velocity.y = self.jump_speed
             self.on_ground = False  # Now in the air
 
         # Apply gravity
-        if self.velocity.y < 0:  # When jumping
+        if self.velocity.y < 0:
             self.velocity.y += self.jump_gravity
-        else:  # When falling
+        else:
             self.velocity.y += self.fall_gravity
 
         # Update player position
@@ -63,81 +63,121 @@ class Player(pygame.sprite.Sprite):
         self.rect.y += self.velocity.y
         
         # Check for ground collision
-        if self.rect.bottom >= SCREEN_HEIGHT:  # Player has landed
+        if self.rect.bottom >= SCREEN_HEIGHT:
             self.rect.bottom = SCREEN_HEIGHT
             self.velocity.y = 0
-            self.on_ground = True  # Allow jumping agai
+            self.on_ground = True
 
-        # Prevent falling through the bottom
-        if self.rect.bottom > SCREEN_HEIGHT:
-            self.rect.bottom = SCREEN_HEIGHT
-            self.velocity.y = 0
-            
-class Zombie1(pygame.sprite.Sprite):
+class Zombie(pygame.sprite.Sprite):
     def __init__(self, x, y):
-        self.image = pygame.transform.scale(zombie1_image, (32, 64))
+        super().__init__()
+        self.image = pygame.transform.scale(zombie1_image, (64, 98))
+        self.rect = self.image.get_rect()
+        self.rect.topleft = (x, y)
+        self.velocity = 2  # Speed of the zombie
+        self.move_direction = 1
+        self.boundary_left = x - 100  # Left boundary
+        self.boundary_right = x + 100  # Right boundary
+    
+    def update(self):
+        # Move back and forth
+        self.rect.x += self.velocity * self.move_direction
 
-# Create a player instance
-player = Player(100, SCREEN_HEIGHT - 70)
+        # Reverse direction if hitting boundaries
+        if self.rect.x <= self.boundary_left or self.rect.x >= self.boundary_right:
+            self.move_direction *= -1  # Reverse direction    
 
-# Group for all sprites
-all_sprites = pygame.sprite.Group()
-all_sprites.add(player)
+class Platform(pygame.sprite.Sprite):
+    def __init__(self, x, y, width, height):
+        super().__init__()
+        self.image = pygame.Surface((width, height))
+        self.image.fill(BLACK)
+        self.rect = self.image.get_rect()
+        self.rect.topleft = (x, y)
 
-# Variables for the background scrolling
-backgrounds = [background_image.copy(), background_image.copy()]
-background_x = [0, SCREEN_WIDTH + 200]  # Positions of the two backgrounds
+class Game:
+    def __init__(self):
+        self.screen = screen
+        self.clock = pygame.time.Clock()
+        self.running = True
+        self.background_offset = 0
+    
+        # Create game objects
+        self.player = Player(100, SCREEN_HEIGHT - 70)
+        self.zombie = Zombie(400, SCREEN_HEIGHT - 70)
+        self.platform = Platform(300, SCREEN_HEIGHT - 150, 200, 20)
 
-# Clock for controlling frame rate
-clock = pygame.time.Clock()
+        self.all_sprites = pygame.sprite.Group()
+        self.all_sprites.add(self.player)
+        self.all_sprites.add(self.zombie)
+        self.all_sprites.add(self.platform)
 
-# Scrolling offset
-background_offset = 0
+        self.backgrounds = [background_image.copy(), background_image.copy()]
+        self.background_x = [0, SCREEN_WIDTH + 200]  # Positions of the two backgrounds
 
+    def run(self):
+        while self.running:
+            self.events()
+            self.update()
+            self.draw()
+            self.clock.tick(FPS)
+        
+        pygame.quit()
+        sys.exit()
 
-# Main game loop
-running = True
-while running:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            running = False
+    def events(self):
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                self.running = False
 
-    keys = pygame.key.get_pressed()
-    player.update(keys)
+    def update(self):
+        keys = pygame.key.get_pressed()
+        
+        self.player.update(keys)
+        self.zombie.update()
+        
+        # Check for collisions
+        if pygame.sprite.collide_rect(self.player, self.zombie):
+            self.player.velocity.y = -15  # Bounce off the zombie
+        
+        # Check for collision with platform
+        if self.player.rect.colliderect(self.platform.rect):
+            self.player.velocity.y = 0
+            self.player.on_ground = True
+            self.player.rect.bottom = self.platform.rect.top
+        
+        # Update background offset if the player is in the middle of the screen
+        if self.player.rect.right > 600 and keys[pygame.K_d]:
+            self.background_offset -= self.player.speed
+            self.player.rect.right = 600
+        elif self.player.rect.left < 200 and keys[pygame.K_a]:
+            self.background_offset += self.player.speed
+            self.player.rect.left = 200
 
-    # Update background offset if the player is in the middle of the screen
-    if player.rect.right > 600 and keys[pygame.K_d]:
-        background_offset -= player.speed
-        player.rect.right = 600
-    elif player.rect.left < 200 and keys[pygame.K_a]:
-        background_offset += player.speed
-        player.rect.left = 200
+        # Prevent scrolling beyond the background image
+        self.background_offset = max(-SCREEN_WIDTH, min(0, self.background_offset))
 
-    # Prevent scrolling beyond the background image
-    background_offset = max(-SCREEN_WIDTH, min(0, background_offset))
-    all_sprites.update(keys)
-     
-   # Update background positions based on player movement
-    for i in range(len(background_x)):
-        background_x[i] -= player.velocity.x  # Move background opposite to player
+        # Update background positions based on player movement
+        for i in range(len(self.background_x)):
+            self.background_x[i] -= self.player.velocity.x  # Move background opposite to player
 
-        # Reset the background position when it goes off screen
-        if background_x[i] <- BACKGROUND_WIDTH:
-            background_x[i] += BACKGROUND_WIDTH * 2  # Move it to the right end
-        elif background_x[i] > BACKGROUND_WIDTH:
-            background_x[i] -= BACKGROUND_WIDTH * 2  # Move it to the left end
+            # Also move platform and zombie with the background
+            self.platform.rect.x -= self.player.velocity.x 
+            self.zombie.rect.x -= self.player.velocity.x 
 
- 
+            # Reset the background position when it goes off screen
+            if self.background_x[i] < -BACKGROUND_WIDTH:
+                self.background_x[i] += BACKGROUND_WIDTH * 2
+            elif self.background_x[i] > BACKGROUND_WIDTH:
+                self.background_x[i] -= BACKGROUND_WIDTH * 2
 
-    # Draw everything
-    screen.fill(WHITE)
-    for i in range(len(background_x)):  # Draw both backgrounds at the same time
-        screen.blit(background_image, (background_x[i], 0))
-    all_sprites.draw(screen)
+    def draw(self):
+        self.screen.fill(WHITE)
+        for bg in self.background_x:
+            self.screen.blit(background_image, (bg, 0))
+        self.all_sprites.draw(self.screen)
+        pygame.display.flip()
 
-    pygame.display.flip()
-
-    clock.tick(FPS)
-
-pygame.quit()
-sys.exit()
+if __name__ == "__main__":
+    game = Game()
+    game.run()
