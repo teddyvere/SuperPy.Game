@@ -21,7 +21,6 @@ screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 pygame.display.set_caption("The Adventures of Py.Man")
 
 # Load assets
-mario_image = pygame.image.load('images/mario.png')
 zombie1_image = pygame.image.load('images/zombie1.png')
 og_background_image = pygame.image.load('images/background.png')
 background_image = pygame.transform.scale(og_background_image, (SCREEN_WIDTH, SCREEN_HEIGHT))
@@ -32,23 +31,33 @@ font = pygame.font.SysFont(None, 55)
 class Player(pygame.sprite.Sprite):
     def __init__(self, x, y):
         super().__init__()
-        self.image = pygame.transform.scale(mario_image, (32, 64))
+        # Load running images
+        self.images = [pygame.transform.scale(pygame.image.load(f'animation/player/mario_run{i}.png'),(40,64)) for i in range(4)]
+        self.index = 0
+        self.image = self.images[self.index]
         self.rect = self.image.get_rect()
         self.rect.topleft = (x, y)
+        
+        # Player movement properties
         self.velocity = pygame.math.Vector2(0, 0)
-        self.speed = 2.5
+        self.speed = 2
         self.jump_speed = -15
         self.gravity = 1
         self.jump_gravity = 1
         self.fall_gravity = 0.25
         self.on_ground = True
         self.jump_pressed = False  # Flag to avoid holding jump
+        
+        # Animation properties
+        self.animation_timer = 0  # Timer for frame updating
+        self.animation_speed = 150  # Milliseconds for each frame
+        self.last_update = pygame.time.get_ticks()  # Last update time
 
     def update(self, keys):
         # Handle horizontal movement
-        if keys[pygame.K_a]:
+        if keys[pygame.K_a]:  # Moving left
             self.velocity.x = -self.speed
-        elif keys[pygame.K_d]:
+        elif keys[pygame.K_d]:  # Moving right
             self.velocity.x = self.speed
         else:
             self.velocity.x = 0
@@ -73,25 +82,61 @@ class Player(pygame.sprite.Sprite):
             self.rect.bottom = SCREEN_HEIGHT
             self.velocity.y = 0
             self.on_ground = True
+        
+        # Update animation
+        self.animate()
+
+    def animate(self):
+        current_time = pygame.time.get_ticks()
+        # Check if it's time to update the frame
+        if current_time - self.last_update > self.animation_speed:
+            self.last_update = current_time
+            
+            # Update the frame index based on velocity
+            if self.velocity.x != 0:  # If moving, update animation
+                self.index = (self.index + 1) % len(self.images)  # Loop through images
+            else:
+                self.index = 0  # If not moving, reset to the first frame
+            
+            # Update the current image
+            self.image = self.images[self.index]
+            
+            # Flip the image based on the direction of movement
+            if self.velocity.x < 0:  # Moving left
+                self.image = pygame.transform.flip(self.images[self.index], True, False)  # Flip horizontally
+            elif self.velocity.x > 0:  # Moving right
+                self.image = self.images[self.index]  # Original image
 
 class Zombie(pygame.sprite.Sprite):
     def __init__(self, x, y):
         super().__init__()
-        self.image = pygame.transform.scale(zombie1_image, (32, 70))
+        self.original_image = pygame.transform.scale(zombie1_image, (32, 70))  # Store the original (non-flipped) image
+        self.image = self.original_image  # Initially set the current image to the original
         self.rect = self.image.get_rect()
         self.rect.topleft = (x, y)
         self.velocity = 2.5  # Speed of the zombie
         self.move_direction = 1
-        self.boundary_left = x - 100  # Left boundary
-        self.boundary_right = x + 100  # Right boundary
+        self.boundary_left = x - 250  # Left boundary
+        self.boundary_right = x + 50  # Right boundary
     
     def update(self):
         # Move back and forth
         self.rect.x += self.velocity * self.move_direction
 
         # Reverse direction if hitting boundaries
-        if self.rect.x <= self.boundary_left or self.rect.x >= self.boundary_right:
-            self.move_direction *= -1  # Reverse direction    
+        if self.rect.x <= self.boundary_left:  # Check left boundary
+            self.rect.x = self.boundary_left  # Snap to boundary
+            self.move_direction = 1  # Move right after hitting left boundary
+        elif self.rect.x >= self.boundary_right:  # Check right boundary
+            self.rect.x = self.boundary_right  # Snap to boundary
+            self.move_direction = -1  # Move left after hitting right boundary
+            
+        # Flip the image based on the direction of movement
+        if self.move_direction < 0:  # Moving left
+            self.image = pygame.transform.flip(self.original_image, True, False)  # Flip horizontally
+        else:  # Moving right
+            self.image = self.original_image  # Use the original image
+
 
 class Platform(pygame.sprite.Sprite):
     def __init__(self, x, y, width, height):
@@ -111,11 +156,15 @@ class Game:
         self.background_offset = 0
         self.show_menu = True  # Flag to show the menu
 
-        # Create game objects
+        # Create player object
         self.player = Player(100, SCREEN_HEIGHT - 70)
-        self.zombie1 = Zombie(400, SCREEN_HEIGHT - 70)
-        self.zombie2 = Zombie(800, SCREEN_HEIGHT - 70)
-        self.zombie3 = Zombie(1200, SCREEN_HEIGHT - 70)
+        
+        # Create a list of zombies
+        self.zombies = [
+            Zombie(400, SCREEN_HEIGHT - 70),
+            Zombie(600, SCREEN_HEIGHT - 70),
+            Zombie(800, SCREEN_HEIGHT - 70)
+        ]
         
         # Create platforms
         self.platform1 = Platform(300, SCREEN_HEIGHT - 100, 150, 20)
@@ -124,12 +173,12 @@ class Game:
         self.platform4 = Platform(2700, SCREEN_HEIGHT - 150, 200, 20)
         self.platform5 = Platform(3500, SCREEN_HEIGHT - 100, 150, 20)
 
-        # Group for all sprites
+       # Group for all sprites
         self.all_sprites = pygame.sprite.Group()
         self.all_sprites.add(self.player)
-        self.all_sprites.add(self.zombie1)
-        self.all_sprites.add(self.zombie2)
-        self.all_sprites.add(self.zombie3)
+        # Add all zombies to the sprite group
+        for zombie in self.zombies:
+            self.all_sprites.add(zombie)
         self.all_sprites.add(self.platform1)
         self.all_sprites.add(self.platform2)
         self.all_sprites.add(self.platform3)
@@ -198,28 +247,39 @@ class Game:
 
     def update(self):
         keys = pygame.key.get_pressed()
-        
-        self.player.update(keys)
-        self.zombie1.update()
-        self.zombie2.update()
-        self.zombie3.update()
-        
-        # Check for collisions
+
+        # Prepare a list to store zombies to remove
+        zombies_to_remove = []
+
+        # Update zombies and check for collisions
         player_died = False
-        for zombie in [self.zombie1, self.zombie2, self.zombie3]:
+        for zombie in self.zombies:
+            zombie.update()  # Update each zombie's position
+
+            # Check for collisions only with alive zombies
             if pygame.sprite.collide_rect(self.player, zombie):
                 if (self.player.rect.bottom <= zombie.rect.top + 10 and self.player.velocity.y > 0):
-                    # Remove zombie if player lands on it
-                    self.all_sprites.remove(zombie)
-                    zombie.kill()
+                    # Mark zombie for removal if the player lands on it
+                    zombies_to_remove.append(zombie)
                     self.player.velocity.y = self.player.jump_speed  # Bounce the player up
-                elif (self.player.rect.right >= zombie.rect.left + 5 and self.player.rect.left <= zombie.rect.right - 5):
-                    player_died = True  # Player collided with the side of the zombie
-        
+                else:
+                    # Player collided with the side of the zombie
+                    player_died = True
+
+        # Remove zombies that have been marked for removal
+        for zombie in zombies_to_remove:
+            self.all_sprites.remove(zombie)
+            self.zombies.remove(zombie)
+            zombie.kill()
+
+        # Only update player position if they are still alive
+        if not player_died:
+            self.player.update(keys)
+
         if player_died:
             self.display_death_message()
             self.running = False  # End the game when the player dies
-                
+
         # Check for collision with platforms
         for platform in [self.platform1, self.platform2, self.platform3, self.platform4, self.platform5]:
             if self.player.rect.colliderect(platform.rect):
@@ -227,33 +287,43 @@ class Game:
                     self.player.velocity.y = 0
                     self.player.on_ground = True
                     self.player.rect.bottom = platform.rect.top
-        
-        # Update background offset if the player is in the middle of the screen
+
+        # Determine if player needs to scroll
+        # If the player has reached certain bounds near the edges of the screen
+        scroll_speed = self.player.velocity.x  # Use the player's current speed for scrolling
         if self.player.rect.right > 600 and keys[pygame.K_d]:
-            self.background_offset -= self.player.speed
+            self.background_offset -= scroll_speed
+
+            # Prevent player from scrolling past the edges
             self.player.rect.right = 600
         elif self.player.rect.left < 200 and keys[pygame.K_a]:
-            self.background_offset += self.player.speed
+            self.background_offset += scroll_speed
             self.player.rect.left = 200
+
+        # Update each sprite's position based on the background offset
+        for zombie in self.zombies:
+            if zombie.alive():
+                zombie.rect.x -= scroll_speed  # Move zombies in the opposite direction of the player scroll
 
         # Prevent scrolling beyond the background image
         self.background_offset = max(-SCREEN_WIDTH, min(0, self.background_offset))
 
         # Update background positions based on player movement
         for i in range(len(self.background_x)):
-            self.background_x[i] -= self.player.velocity.x  # Move background opposite to player
+            self.background_x[i] -= scroll_speed  # Move background opposite to player
 
-            # Move platforms and zombies with the background
+            # Move platforms with the background
             for platform in [self.platform1, self.platform2, self.platform3, self.platform4, self.platform5]:
-                platform.rect.x -= self.player.velocity.x
-            for zombie in [self.zombie1, self.zombie2, self.zombie3]:
-                zombie.rect.x -= self.player.velocity.x 
+                platform.rect.x -= scroll_speed
 
             # Reset the background position when it goes off screen
             if self.background_x[i] < -BACKGROUND_WIDTH:
                 self.background_x[i] += BACKGROUND_WIDTH * 2
             elif self.background_x[i] > BACKGROUND_WIDTH:
                 self.background_x[i] -= BACKGROUND_WIDTH * 2
+
+
+
 
     def draw(self):
         self.screen.fill(WHITE)
@@ -280,7 +350,7 @@ class Game:
         self.screen.blit(death_message, death_rect)
         pygame.display.flip()
 
-        pygame.time.wait(10000)  # Display the message for 2 seconds
+        pygame.time.wait(5000)  # Display the message for 2 seconds
 
 if __name__ == "__main__":
     game = Game()
