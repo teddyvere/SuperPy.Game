@@ -32,7 +32,7 @@ font = pygame.font.SysFont(None, 55)
 class Player(pygame.sprite.Sprite):
     def __init__(self, x, y):
         super().__init__()
-        self.image = pygame.transform.scale(mario_image, (32, 32))
+        self.image = pygame.transform.scale(mario_image, (32, 64))
         self.rect = self.image.get_rect()
         self.rect.topleft = (x, y)
         self.velocity = pygame.math.Vector2(0, 0)
@@ -77,7 +77,7 @@ class Player(pygame.sprite.Sprite):
 class Zombie(pygame.sprite.Sprite):
     def __init__(self, x, y):
         super().__init__()
-        self.image = pygame.transform.scale(zombie1_image, (64, 98))
+        self.image = pygame.transform.scale(zombie1_image, (32, 70))
         self.rect = self.image.get_rect()
         self.rect.topleft = (x, y)
         self.velocity = 2.5  # Speed of the zombie
