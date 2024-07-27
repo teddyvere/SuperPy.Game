@@ -19,6 +19,7 @@ pygame.display.set_caption("Super Mario Clone")
 # Load assets
 # (You'll need to provide your own Mario image or use Pygame's built-in shapes temporarily)
 mario_image = pygame.image.load('images/mario.png')
+zombie1_image = pygame.image.load('images/zombie1.png')
 og_background_image = pygame.image.load('images/background.png')
 background_image = pygame.transform.scale(og_background_image, (SCREEN_WIDTH, SCREEN_HEIGHT))
 
@@ -30,9 +31,13 @@ class Player(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.topleft = (x, y)
         self.velocity = pygame.math.Vector2(0, 0)
-        self.speed = 5
+        self.speed = 2.5
         self.jump_speed = -15
         self.gravity = 1
+        self.jump_gravity = 1
+        self.fall_gravity = 0.25
+        self.on_ground = True
+        self.jump_pressed = False  # Flag to avoid holding jump
 
     def update(self, keys):
         # Handle horizontal movement
@@ -40,30 +45,37 @@ class Player(pygame.sprite.Sprite):
             self.velocity.x = -self.speed
         elif keys[pygame.K_d]:
             self.velocity.x = self.speed
-        elif keys[pygame.K_s]:
-            self.velocity.y = -self.jump_speed
-            if self.rect.bottom < SCREEN_HEIGHT:
-                self.rect.y += 1
-        elif keys[pygame.K_w]:
-            self.velocity.y = self.jump_speed
-            if self.rect.top > 0:
-                self.rect.y -= 1
         else:
             self.velocity.x = 0
-
-        # Handle jump
-        if keys[pygame.K_SPACE] and self.rect.bottom >= SCREEN_HEIGHT:
+# Handle jump
+        if self.on_ground and keys[pygame.K_w]:  # Jump only if on ground
             self.velocity.y = self.jump_speed
+            self.on_ground = False  # Now in the air
 
         # Apply gravity
-        self.velocity.y += self.gravity
+        if self.velocity.y < 0:  # When jumping
+            self.velocity.y += self.jump_gravity
+        else:  # When falling
+            self.velocity.y += self.fall_gravity
+
+        # Update player position
         self.rect.x += self.velocity.x
         self.rect.y += self.velocity.y
+        
+        # Check for ground collision
+        if self.rect.bottom >= SCREEN_HEIGHT:  # Player has landed
+            self.rect.bottom = SCREEN_HEIGHT
+            self.velocity.y = 0
+            self.on_ground = True  # Allow jumping agai
 
         # Prevent falling through the bottom
         if self.rect.bottom > SCREEN_HEIGHT:
             self.rect.bottom = SCREEN_HEIGHT
             self.velocity.y = 0
+            
+class Zombie1(pygame.sprite.Sprite):
+    def __init__(self, x, y):
+        self.image = pygame.transform.scale(zombie1_image, (32, 64))
 
 # Create a player instance
 player = Player(100, SCREEN_HEIGHT - 70)
