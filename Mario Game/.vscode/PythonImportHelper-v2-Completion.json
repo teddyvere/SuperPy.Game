@@ -31,7 +31,7 @@
         "kind": 6,
         "importPath": "main",
         "description": "main",
-        "peekOfCode": "class Zombie(pygame.sprite.Sprite):\n    def __init__(self, x, y):\n        super().__init__()\n        self.image = pygame.transform.scale(zombie1_image, (64, 98))\n        self.rect = self.image.get_rect()\n        self.rect.topleft = (x, y)\n        self.velocity = 2  # Speed of the zombie\n        self.move_direction = 1\n        self.boundary_left = x - 100  # Left boundary\n        self.boundary_right = x + 100  # Right boundary",
+        "peekOfCode": "class Zombie(pygame.sprite.Sprite):\n    def __init__(self, x, y):\n        super().__init__()\n        self.image = pygame.transform.scale(zombie1_image, (64, 98))\n        self.rect = self.image.get_rect()\n        self.rect.topleft = (x, y)\n        self.velocity = 2.5  # Speed of the zombie\n        self.move_direction = 1\n        self.boundary_left = x - 100  # Left boundary\n        self.boundary_right = x + 100  # Right boundary",
         "detail": "main",
         "documentation": {}
     },
@@ -40,7 +40,7 @@
         "kind": 6,
         "importPath": "main",
         "description": "main",
-        "peekOfCode": "class Platform(pygame.sprite.Sprite):\n    def __init__(self, x, y, width, height):\n        super().__init__()\n        self.image = pygame.Surface((width, height))\n        self.image.fill(BLACK)\n        self.rect = self.image.get_rect()\n        self.rect.topleft = (x, y)\nclass Game:\n    def __init__(self):\n        self.screen = screen",
+        "peekOfCode": "class Platform(pygame.sprite.Sprite):\n    def __init__(self, x, y, width, height):\n        super().__init__()\n        self.image = pygame.Surface((width, height))\n        self.image.fill((128, 128, 128))  # Fill with gray color\n        # Draw black border\n        pygame.draw.rect(self.image, BLACK, self.image.get_rect(), 3)  # 3 pixels for the border width\n        self.rect = self.image.get_rect()\n        self.rect.topleft = (x, y)\nclass Game:",
         "detail": "main",
         "documentation": {}
     },
@@ -49,7 +49,7 @@
         "kind": 6,
         "importPath": "main",
         "description": "main",
-        "peekOfCode": "class Game:\n    def __init__(self):\n        self.screen = screen\n        self.clock = pygame.time.Clock()\n        self.running = True\n        self.background_offset = 0\n        # Create game objects\n        self.player = Player(100, SCREEN_HEIGHT - 70)\n        self.zombie = Zombie(400, SCREEN_HEIGHT - 70)\n        self.platform = Platform(300, SCREEN_HEIGHT - 150, 200, 20)",
+        "peekOfCode": "class Game:\n    def __init__(self):\n        self.screen = screen\n        self.clock = pygame.time.Clock()\n        self.running = True\n        self.background_offset = 0\n        # Create game objects\n        self.player = Player(100, SCREEN_HEIGHT - 70)\n        self.zombie1 = Zombie(400, SCREEN_HEIGHT - 70)\n        self.zombie2 = Zombie(800, SCREEN_HEIGHT - 70)",
         "detail": "main",
         "documentation": {}
     },
@@ -58,7 +58,7 @@
         "kind": 5,
         "importPath": "main",
         "description": "main",
-        "peekOfCode": "FPS = 60\nBACKGROUND_WIDTH = SCREEN_WIDTH\n# Colors\nWHITE = (255, 255, 255)\nBLACK = (0, 0, 0)\n# Initialize screen\nscreen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))\npygame.display.set_caption(\"Super Mario Clone\")\n# Load assets\nmario_image = pygame.image.load('images/mario.png')",
+        "peekOfCode": "FPS = 60\nBACKGROUND_WIDTH = SCREEN_WIDTH\n# Colors\nWHITE = (255, 255, 255)\nBLACK = (0, 0, 0)\n# Initialize screen\nscreen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))\npygame.display.set_caption(\"The Adventures of Py.Man\")\n# Load assets\nmario_image = pygame.image.load('images/mario.png')",
         "detail": "main",
         "documentation": {}
     },
@@ -67,7 +67,7 @@
         "kind": 5,
         "importPath": "main",
         "description": "main",
-        "peekOfCode": "BACKGROUND_WIDTH = SCREEN_WIDTH\n# Colors\nWHITE = (255, 255, 255)\nBLACK = (0, 0, 0)\n# Initialize screen\nscreen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))\npygame.display.set_caption(\"Super Mario Clone\")\n# Load assets\nmario_image = pygame.image.load('images/mario.png')\nzombie1_image = pygame.image.load('images/zombie1.png')",
+        "peekOfCode": "BACKGROUND_WIDTH = SCREEN_WIDTH\n# Colors\nWHITE = (255, 255, 255)\nBLACK = (0, 0, 0)\n# Initialize screen\nscreen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))\npygame.display.set_caption(\"The Adventures of Py.Man\")\n# Load assets\nmario_image = pygame.image.load('images/mario.png')\nzombie1_image = pygame.image.load('images/zombie1.png')",
         "detail": "main",
         "documentation": {}
     },
@@ -76,7 +76,7 @@
         "kind": 5,
         "importPath": "main",
         "description": "main",
-        "peekOfCode": "WHITE = (255, 255, 255)\nBLACK = (0, 0, 0)\n# Initialize screen\nscreen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))\npygame.display.set_caption(\"Super Mario Clone\")\n# Load assets\nmario_image = pygame.image.load('images/mario.png')\nzombie1_image = pygame.image.load('images/zombie1.png')\nog_background_image = pygame.image.load('images/background.png')\nbackground_image = pygame.transform.scale(og_background_image, (SCREEN_WIDTH, SCREEN_HEIGHT))",
+        "peekOfCode": "WHITE = (255, 255, 255)\nBLACK = (0, 0, 0)\n# Initialize screen\nscreen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))\npygame.display.set_caption(\"The Adventures of Py.Man\")\n# Load assets\nmario_image = pygame.image.load('images/mario.png')\nzombie1_image = pygame.image.load('images/zombie1.png')\nog_background_image = pygame.image.load('images/background.png')\nbackground_image = pygame.transform.scale(og_background_image, (SCREEN_WIDTH, SCREEN_HEIGHT))",
         "detail": "main",
         "documentation": {}
     },
@@ -85,7 +85,7 @@
         "kind": 5,
         "importPath": "main",
         "description": "main",
-        "peekOfCode": "BLACK = (0, 0, 0)\n# Initialize screen\nscreen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))\npygame.display.set_caption(\"Super Mario Clone\")\n# Load assets\nmario_image = pygame.image.load('images/mario.png')\nzombie1_image = pygame.image.load('images/zombie1.png')\nog_background_image = pygame.image.load('images/background.png')\nbackground_image = pygame.transform.scale(og_background_image, (SCREEN_WIDTH, SCREEN_HEIGHT))\nclass Player(pygame.sprite.Sprite):",
+        "peekOfCode": "BLACK = (0, 0, 0)\n# Initialize screen\nscreen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))\npygame.display.set_caption(\"The Adventures of Py.Man\")\n# Load assets\nmario_image = pygame.image.load('images/mario.png')\nzombie1_image = pygame.image.load('images/zombie1.png')\nog_background_image = pygame.image.load('images/background.png')\nbackground_image = pygame.transform.scale(og_background_image, (SCREEN_WIDTH, SCREEN_HEIGHT))\nclass Player(pygame.sprite.Sprite):",
         "detail": "main",
         "documentation": {}
     },
@@ -94,7 +94,7 @@
         "kind": 5,
         "importPath": "main",
         "description": "main",
-        "peekOfCode": "screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))\npygame.display.set_caption(\"Super Mario Clone\")\n# Load assets\nmario_image = pygame.image.load('images/mario.png')\nzombie1_image = pygame.image.load('images/zombie1.png')\nog_background_image = pygame.image.load('images/background.png')\nbackground_image = pygame.transform.scale(og_background_image, (SCREEN_WIDTH, SCREEN_HEIGHT))\nclass Player(pygame.sprite.Sprite):\n    def __init__(self, x, y):\n        super().__init__()",
+        "peekOfCode": "screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))\npygame.display.set_caption(\"The Adventures of Py.Man\")\n# Load assets\nmario_image = pygame.image.load('images/mario.png')\nzombie1_image = pygame.image.load('images/zombie1.png')\nog_background_image = pygame.image.load('images/background.png')\nbackground_image = pygame.transform.scale(og_background_image, (SCREEN_WIDTH, SCREEN_HEIGHT))\nclass Player(pygame.sprite.Sprite):\n    def __init__(self, x, y):\n        super().__init__()",
         "detail": "main",
         "documentation": {}
     },

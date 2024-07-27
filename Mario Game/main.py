@@ -15,7 +15,7 @@ BLACK = (0, 0, 0)
 
 # Initialize screen
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
-pygame.display.set_caption("Super Mario Clone")
+pygame.display.set_caption("The Adventures of Py.Man")
 
 # Load assets
 mario_image = pygame.image.load('images/mario.png')
@@ -74,7 +74,7 @@ class Zombie(pygame.sprite.Sprite):
         self.image = pygame.transform.scale(zombie1_image, (64, 98))
         self.rect = self.image.get_rect()
         self.rect.topleft = (x, y)
-        self.velocity = 2  # Speed of the zombie
+        self.velocity = 2.5  # Speed of the zombie
         self.move_direction = 1
         self.boundary_left = x - 100  # Left boundary
         self.boundary_right = x + 100  # Right boundary
@@ -91,7 +91,9 @@ class Platform(pygame.sprite.Sprite):
     def __init__(self, x, y, width, height):
         super().__init__()
         self.image = pygame.Surface((width, height))
-        self.image.fill(BLACK)
+        self.image.fill((128, 128, 128))  # Fill with gray color
+        # Draw black border
+        pygame.draw.rect(self.image, BLACK, self.image.get_rect(), 3)  # 3 pixels for the border width
         self.rect = self.image.get_rect()
         self.rect.topleft = (x, y)
 
@@ -104,13 +106,28 @@ class Game:
     
         # Create game objects
         self.player = Player(100, SCREEN_HEIGHT - 70)
-        self.zombie = Zombie(400, SCREEN_HEIGHT - 70)
-        self.platform = Platform(300, SCREEN_HEIGHT - 150, 200, 20)
+        self.zombie1 = Zombie(400, SCREEN_HEIGHT - 70)
+        self.zombie2 = Zombie(800, SCREEN_HEIGHT - 70)
+        self.zombie3 = Zombie(1200, SCREEN_HEIGHT - 70)
+        
+        # Create platforms
+        self.platform1 = Platform(300, SCREEN_HEIGHT - 100, 150, 20)
+        self.platform2 = Platform(1100, SCREEN_HEIGHT - 150, 200, 20)
+        self.platform3 = Platform(1900, SCREEN_HEIGHT - 100, 150, 20)
+        self.platform4 = Platform(2700, SCREEN_HEIGHT - 150, 200, 20)
+        self.platform5 = Platform(3500, SCREEN_HEIGHT - 100, 150, 20)
 
+        # Group for all sprites
         self.all_sprites = pygame.sprite.Group()
         self.all_sprites.add(self.player)
-        self.all_sprites.add(self.zombie)
-        self.all_sprites.add(self.platform)
+        self.all_sprites.add(self.zombie1)
+        self.all_sprites.add(self.zombie2)
+        self.all_sprites.add(self.zombie3)
+        self.all_sprites.add(self.platform1)
+        self.all_sprites.add(self.platform2)
+        self.all_sprites.add(self.platform3)
+        self.all_sprites.add(self.platform4)
+        self.all_sprites.add(self.platform5)
 
         self.backgrounds = [background_image.copy(), background_image.copy()]
         self.background_x = [0, SCREEN_WIDTH + 200]  # Positions of the two backgrounds
@@ -134,17 +151,24 @@ class Game:
         keys = pygame.key.get_pressed()
         
         self.player.update(keys)
-        self.zombie.update()
+        self.zombie1.update()
+        self.zombie2.update()
+        self.zombie3.update()
         
         # Check for collisions
-        if pygame.sprite.collide_rect(self.player, self.zombie):
-            self.player.velocity.y = -15  # Bounce off the zombie
-        
-        # Check for collision with platform
-        if self.player.rect.colliderect(self.platform.rect):
-            self.player.velocity.y = 0
-            self.player.on_ground = True
-            self.player.rect.bottom = self.platform.rect.top
+        for zombie in [self.zombie1, self.zombie2, self.zombie3]:
+            if pygame.sprite.collide_rect(self.player, zombie):
+                if self.player.rect.bottom <= zombie.rect.top + 10 and self.player.velocity.y > 0:
+                    zombie.kill()  # Remove zombie if player lands on it
+                    self.player.velocity.y = self.player.jump_speed  # Bounce the player up
+                
+        # Check for collision with platforms
+        for platform in [self.platform1, self.platform2, self.platform3, self.platform4, self.platform5]:
+            if self.player.rect.colliderect(platform.rect):
+                if self.player.velocity.y > 0 and self.player.rect.bottom <= platform.rect.bottom:
+                    self.player.velocity.y = 0
+                    self.player.on_ground = True
+                    self.player.rect.bottom = platform.rect.top
         
         # Update background offset if the player is in the middle of the screen
         if self.player.rect.right > 600 and keys[pygame.K_d]:
@@ -161,9 +185,11 @@ class Game:
         for i in range(len(self.background_x)):
             self.background_x[i] -= self.player.velocity.x  # Move background opposite to player
 
-            # Also move platform and zombie with the background
-            self.platform.rect.x -= self.player.velocity.x 
-            self.zombie.rect.x -= self.player.velocity.x 
+            # Move platforms and zombies with the background
+            for platform in [self.platform1, self.platform2, self.platform3, self.platform4, self.platform5]:
+                platform.rect.x -= self.player.velocity.x
+            for zombie in [self.zombie1, self.zombie2, self.zombie3]:
+                zombie.rect.x -= self.player.velocity.x 
 
             # Reset the background position when it goes off screen
             if self.background_x[i] < -BACKGROUND_WIDTH:
