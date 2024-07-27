@@ -7,6 +7,7 @@ pygame.init()
 # Constants
 SCREEN_WIDTH, SCREEN_HEIGHT = 800, 600
 FPS = 60
+BACKGROUND_WIDTH = SCREEN_WIDTH
 
 # Colors
 WHITE = (255, 255, 255)
@@ -22,7 +23,7 @@ og_background_image = pygame.image.load('images/background.png')
 background_image = pygame.transform.scale(og_background_image, (SCREEN_WIDTH, SCREEN_HEIGHT))
 
 # Player class
-class Player(pygame.sprite.Sprite):w
+class Player(pygame.sprite.Sprite):
     def __init__(self, x, y):
         super().__init__()
         self.image = pygame.transform.scale(mario_image, (32, 32))
@@ -71,8 +72,16 @@ player = Player(100, SCREEN_HEIGHT - 70)
 all_sprites = pygame.sprite.Group()
 all_sprites.add(player)
 
+# Variables for the background scrolling
+backgrounds = [background_image.copy(), background_image.copy()]
+background_x = [0, SCREEN_WIDTH + 200]  # Positions of the two backgrounds
+
 # Clock for controlling frame rate
 clock = pygame.time.Clock()
+
+# Scrolling offset
+background_offset = 0
+
 
 # Main game loop
 running = True
@@ -82,11 +91,36 @@ while running:
             running = False
 
     keys = pygame.key.get_pressed()
+    player.update(keys)
+
+    # Update background offset if the player is in the middle of the screen
+    if player.rect.right > 600 and keys[pygame.K_d]:
+        background_offset -= player.speed
+        player.rect.right = 600
+    elif player.rect.left < 200 and keys[pygame.K_a]:
+        background_offset += player.speed
+        player.rect.left = 200
+
+    # Prevent scrolling beyond the background image
+    background_offset = max(-SCREEN_WIDTH, min(0, background_offset))
     all_sprites.update(keys)
+     
+   # Update background positions based on player movement
+    for i in range(len(background_x)):
+        background_x[i] -= player.velocity.x  # Move background opposite to player
+
+        # Reset the background position when it goes off screen
+        if background_x[i] <- BACKGROUND_WIDTH:
+            background_x[i] += BACKGROUND_WIDTH * 2  # Move it to the right end
+        elif background_x[i] > BACKGROUND_WIDTH:
+            background_x[i] -= BACKGROUND_WIDTH * 2  # Move it to the left end
+
+ 
 
     # Draw everything
     screen.fill(WHITE)
-    screen.blit(background_image, (0, 0))
+    for i in range(len(background_x)):  # Draw both backgrounds at the same time
+        screen.blit(background_image, (background_x[i], 0))
     all_sprites.draw(screen)
 
     pygame.display.flip()

@@ -1,0 +1,155 @@
+[
+    {
+        "label": "pygame",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "pygame",
+        "description": "pygame",
+        "detail": "pygame",
+        "documentation": {}
+    },
+    {
+        "label": "sys",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "sys",
+        "description": "sys",
+        "detail": "sys",
+        "documentation": {}
+    },
+    {
+        "label": "Player",
+        "kind": 6,
+        "importPath": "main",
+        "description": "main",
+        "peekOfCode": "class Player(pygame.sprite.Sprite):\n    def __init__(self, x, y):\n        super().__init__()\n        self.image = pygame.transform.scale(mario_image, (32, 32))\n        self.rect = self.image.get_rect()\n        self.rect.topleft = (x, y)\n        self.velocity = pygame.math.Vector2(0, 0)\n        self.speed = 5\n        self.jump_speed = -15\n        self.gravity = 1",
+        "detail": "main",
+        "documentation": {}
+    },
+    {
+        "label": "FPS",
+        "kind": 5,
+        "importPath": "main",
+        "description": "main",
+        "peekOfCode": "FPS = 60\nBACKGROUND_WIDTH = SCREEN_WIDTH\n# Colors\nWHITE = (255, 255, 255)\n# Initialize screen\nscreen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))\npygame.display.set_caption(\"Super Mario Clone\")\n# Load assets\n# (You'll need to provide your own Mario image or use Pygame's built-in shapes temporarily)\nmario_image = pygame.image.load('images/mario.png')",
+        "detail": "main",
+        "documentation": {}
+    },
+    {
+        "label": "BACKGROUND_WIDTH",
+        "kind": 5,
+        "importPath": "main",
+        "description": "main",
+        "peekOfCode": "BACKGROUND_WIDTH = SCREEN_WIDTH\n# Colors\nWHITE = (255, 255, 255)\n# Initialize screen\nscreen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))\npygame.display.set_caption(\"Super Mario Clone\")\n# Load assets\n# (You'll need to provide your own Mario image or use Pygame's built-in shapes temporarily)\nmario_image = pygame.image.load('images/mario.png')\nog_background_image = pygame.image.load('images/background.png')",
+        "detail": "main",
+        "documentation": {}
+    },
+    {
+        "label": "WHITE",
+        "kind": 5,
+        "importPath": "main",
+        "description": "main",
+        "peekOfCode": "WHITE = (255, 255, 255)\n# Initialize screen\nscreen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))\npygame.display.set_caption(\"Super Mario Clone\")\n# Load assets\n# (You'll need to provide your own Mario image or use Pygame's built-in shapes temporarily)\nmario_image = pygame.image.load('images/mario.png')\nog_background_image = pygame.image.load('images/background.png')\nbackground_image = pygame.transform.scale(og_background_image, (SCREEN_WIDTH, SCREEN_HEIGHT))\n# Player class",
+        "detail": "main",
+        "documentation": {}
+    },
+    {
+        "label": "screen",
+        "kind": 5,
+        "importPath": "main",
+        "description": "main",
+        "peekOfCode": "screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))\npygame.display.set_caption(\"Super Mario Clone\")\n# Load assets\n# (You'll need to provide your own Mario image or use Pygame's built-in shapes temporarily)\nmario_image = pygame.image.load('images/mario.png')\nog_background_image = pygame.image.load('images/background.png')\nbackground_image = pygame.transform.scale(og_background_image, (SCREEN_WIDTH, SCREEN_HEIGHT))\n# Player class\nclass Player(pygame.sprite.Sprite):\n    def __init__(self, x, y):",
+        "detail": "main",
+        "documentation": {}
+    },
+    {
+        "label": "mario_image",
+        "kind": 5,
+        "importPath": "main",
+        "description": "main",
+        "peekOfCode": "mario_image = pygame.image.load('images/mario.png')\nog_background_image = pygame.image.load('images/background.png')\nbackground_image = pygame.transform.scale(og_background_image, (SCREEN_WIDTH, SCREEN_HEIGHT))\n# Player class\nclass Player(pygame.sprite.Sprite):\n    def __init__(self, x, y):\n        super().__init__()\n        self.image = pygame.transform.scale(mario_image, (32, 32))\n        self.rect = self.image.get_rect()\n        self.rect.topleft = (x, y)",
+        "detail": "main",
+        "documentation": {}
+    },
+    {
+        "label": "og_background_image",
+        "kind": 5,
+        "importPath": "main",
+        "description": "main",
+        "peekOfCode": "og_background_image = pygame.image.load('images/background.png')\nbackground_image = pygame.transform.scale(og_background_image, (SCREEN_WIDTH, SCREEN_HEIGHT))\n# Player class\nclass Player(pygame.sprite.Sprite):\n    def __init__(self, x, y):\n        super().__init__()\n        self.image = pygame.transform.scale(mario_image, (32, 32))\n        self.rect = self.image.get_rect()\n        self.rect.topleft = (x, y)\n        self.velocity = pygame.math.Vector2(0, 0)",
+        "detail": "main",
+        "documentation": {}
+    },
+    {
+        "label": "background_image",
+        "kind": 5,
+        "importPath": "main",
+        "description": "main",
+        "peekOfCode": "background_image = pygame.transform.scale(og_background_image, (SCREEN_WIDTH, SCREEN_HEIGHT))\n# Player class\nclass Player(pygame.sprite.Sprite):\n    def __init__(self, x, y):\n        super().__init__()\n        self.image = pygame.transform.scale(mario_image, (32, 32))\n        self.rect = self.image.get_rect()\n        self.rect.topleft = (x, y)\n        self.velocity = pygame.math.Vector2(0, 0)\n        self.speed = 5",
+        "detail": "main",
+        "documentation": {}
+    },
+    {
+        "label": "player",
+        "kind": 5,
+        "importPath": "main",
+        "description": "main",
+        "peekOfCode": "player = Player(100, SCREEN_HEIGHT - 70)\n# Group for all sprites\nall_sprites = pygame.sprite.Group()\nall_sprites.add(player)\n# Variables for the background scrolling\nbackgrounds = [background_image.copy(), background_image.copy()]\nbackground_x = [0, SCREEN_WIDTH + 200]  # Positions of the two backgrounds\n# Clock for controlling frame rate\nclock = pygame.time.Clock()\n# Scrolling offset",
+        "detail": "main",
+        "documentation": {}
+    },
+    {
+        "label": "all_sprites",
+        "kind": 5,
+        "importPath": "main",
+        "description": "main",
+        "peekOfCode": "all_sprites = pygame.sprite.Group()\nall_sprites.add(player)\n# Variables for the background scrolling\nbackgrounds = [background_image.copy(), background_image.copy()]\nbackground_x = [0, SCREEN_WIDTH + 200]  # Positions of the two backgrounds\n# Clock for controlling frame rate\nclock = pygame.time.Clock()\n# Scrolling offset\nbackground_offset = 0\n# Main game loop",
+        "detail": "main",
+        "documentation": {}
+    },
+    {
+        "label": "backgrounds",
+        "kind": 5,
+        "importPath": "main",
+        "description": "main",
+        "peekOfCode": "backgrounds = [background_image.copy(), background_image.copy()]\nbackground_x = [0, SCREEN_WIDTH + 200]  # Positions of the two backgrounds\n# Clock for controlling frame rate\nclock = pygame.time.Clock()\n# Scrolling offset\nbackground_offset = 0\n# Main game loop\nrunning = True\nwhile running:\n    for event in pygame.event.get():",
+        "detail": "main",
+        "documentation": {}
+    },
+    {
+        "label": "background_x",
+        "kind": 5,
+        "importPath": "main",
+        "description": "main",
+        "peekOfCode": "background_x = [0, SCREEN_WIDTH + 200]  # Positions of the two backgrounds\n# Clock for controlling frame rate\nclock = pygame.time.Clock()\n# Scrolling offset\nbackground_offset = 0\n# Main game loop\nrunning = True\nwhile running:\n    for event in pygame.event.get():\n        if event.type == pygame.QUIT:",
+        "detail": "main",
+        "documentation": {}
+    },
+    {
+        "label": "clock",
+        "kind": 5,
+        "importPath": "main",
+        "description": "main",
+        "peekOfCode": "clock = pygame.time.Clock()\n# Scrolling offset\nbackground_offset = 0\n# Main game loop\nrunning = True\nwhile running:\n    for event in pygame.event.get():\n        if event.type == pygame.QUIT:\n            running = False\n    keys = pygame.key.get_pressed()",
+        "detail": "main",
+        "documentation": {}
+    },
+    {
+        "label": "background_offset",
+        "kind": 5,
+        "importPath": "main",
+        "description": "main",
+        "peekOfCode": "background_offset = 0\n# Main game loop\nrunning = True\nwhile running:\n    for event in pygame.event.get():\n        if event.type == pygame.QUIT:\n            running = False\n    keys = pygame.key.get_pressed()\n    player.update(keys)\n    # Update background offset if the player is in the middle of the screen",
+        "detail": "main",
+        "documentation": {}
+    },
+    {
+        "label": "running",
+        "kind": 5,
+        "importPath": "main",
+        "description": "main",
+        "peekOfCode": "running = True\nwhile running:\n    for event in pygame.event.get():\n        if event.type == pygame.QUIT:\n            running = False\n    keys = pygame.key.get_pressed()\n    player.update(keys)\n    # Update background offset if the player is in the middle of the screen\n    if player.rect.right > 600 and keys[pygame.K_d]:\n        background_offset -= player.speed",
+        "detail": "main",
+        "documentation": {}
+    }
+]
