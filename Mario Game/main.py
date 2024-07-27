@@ -1,5 +1,7 @@
 import pygame
 import sys
+import numpy as np
+import scipy.ndimage
 
 # Initialize Pygame
 pygame.init()
@@ -12,6 +14,7 @@ BACKGROUND_WIDTH = SCREEN_WIDTH
 # Colors
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
+RED = (255, 0, 0)
 
 # Initialize screen
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
@@ -22,6 +25,9 @@ mario_image = pygame.image.load('images/mario.png')
 zombie1_image = pygame.image.load('images/zombie1.png')
 og_background_image = pygame.image.load('images/background.png')
 background_image = pygame.transform.scale(og_background_image, (SCREEN_WIDTH, SCREEN_HEIGHT))
+
+# Fonts
+font = pygame.font.SysFont(None, 55)
 
 class Player(pygame.sprite.Sprite):
     def __init__(self, x, y):
@@ -103,7 +109,8 @@ class Game:
         self.clock = pygame.time.Clock()
         self.running = True
         self.background_offset = 0
-    
+        self.show_menu = True  # Flag to show the menu
+
         # Create game objects
         self.player = Player(100, SCREEN_HEIGHT - 70)
         self.zombie1 = Zombie(400, SCREEN_HEIGHT - 70)
@@ -134,13 +141,55 @@ class Game:
 
     def run(self):
         while self.running:
-            self.events()
-            self.update()
-            self.draw()
+            if self.show_menu:
+                self.display_menu()
+            else:
+                self.events()
+                self.update()
+                self.draw()
             self.clock.tick(FPS)
         
         pygame.quit()
         sys.exit()
+        
+    def display_menu(self):
+        # Blur the background
+        surface_array = pygame.surfarray.array3d(self.screen)
+
+        # Apply a blur effect
+        blurred_array = scipy.ndimage.gaussian_filter(surface_array, sigma=(5, 5, 0))
+
+        # Convert back to pygame surface and draw
+        blurred_surface = pygame.surfarray.make_surface(np.transpose(blurred_array, (1, 0, 2)))
+        self.screen.blit(blurred_surface, (0, 0))
+
+         # Render the game title
+        title_font = pygame.font.Font(None, 74)  # You can adjust the size and font
+        title = title_font.render("GTA 6", True, WHITE)
+        title_rect = title.get_rect(center=(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2 - 50))  # Adjust position as needed
+        self.screen.blit(title, title_rect)
+
+        # Render play button
+        play_button = font.render("PRESS ENTER TO CONTINUE", True, WHITE)
+        button_rect = play_button.get_rect(center=(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2))
+        self.screen.blit(play_button, button_rect)
+
+        # Update the display
+        pygame.display.flip()
+
+        # Wait for user interaction
+        self.wait_for_menu_input()
+
+    def wait_for_menu_input(self):
+        while self.show_menu:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    self.running = False
+                    self.show_menu = False
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_RETURN:  # Press Enter to start the game
+                        self.show_menu = False
+       
 
     def events(self):
         for event in pygame.event.get():
@@ -156,11 +205,20 @@ class Game:
         self.zombie3.update()
         
         # Check for collisions
+        player_died = False
         for zombie in [self.zombie1, self.zombie2, self.zombie3]:
             if pygame.sprite.collide_rect(self.player, zombie):
-                if self.player.rect.bottom <= zombie.rect.top + 10 and self.player.velocity.y > 0:
-                    zombie.kill()  # Remove zombie if player lands on it
+                if (self.player.rect.bottom <= zombie.rect.top + 10 and self.player.velocity.y > 0):
+                    # Remove zombie if player lands on it
+                    self.all_sprites.remove(zombie)
+                    zombie.kill()
                     self.player.velocity.y = self.player.jump_speed  # Bounce the player up
+                elif (self.player.rect.right >= zombie.rect.left + 5 and self.player.rect.left <= zombie.rect.right - 5):
+                    player_died = True  # Player collided with the side of the zombie
+        
+        if player_died:
+            self.display_death_message()
+            self.running = False  # End the game when the player dies
                 
         # Check for collision with platforms
         for platform in [self.platform1, self.platform2, self.platform3, self.platform4, self.platform5]:
@@ -203,6 +261,26 @@ class Game:
             self.screen.blit(background_image, (bg, 0))
         self.all_sprites.draw(self.screen)
         pygame.display.flip()
+
+    def display_death_message(self):
+        # Capture the screen
+        surface_array = pygame.surfarray.array3d(self.screen)
+        surface_array = np.transpose(surface_array, (1, 0, 2))
+
+        # Apply a blur effect
+        blurred_array = scipy.ndimage.gaussian_filter(surface_array, sigma=(5, 5, 0))
+
+        # Convert back to pygame surface and draw
+        blurred_surface = pygame.surfarray.make_surface(np.transpose(blurred_array, (1, 0, 2)))
+        self.screen.blit(blurred_surface, (0, 0))
+
+        # Render death message
+        death_message = font.render("WASTED", True, RED)
+        death_rect = death_message.get_rect(center=(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2))
+        self.screen.blit(death_message, death_rect)
+        pygame.display.flip()
+
+        pygame.time.wait(10000)  # Display the message for 2 seconds
 
 if __name__ == "__main__":
     game = Game()

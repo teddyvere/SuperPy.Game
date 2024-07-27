@@ -18,6 +18,24 @@
         "documentation": {}
     },
     {
+        "label": "numpy",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "numpy",
+        "description": "numpy",
+        "detail": "numpy",
+        "documentation": {}
+    },
+    {
+        "label": "scipy.ndimage",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "scipy.ndimage",
+        "description": "scipy.ndimage",
+        "detail": "scipy.ndimage",
+        "documentation": {}
+    },
+    {
         "label": "Player",
         "kind": 6,
         "importPath": "main",
@@ -49,7 +67,7 @@
         "kind": 6,
         "importPath": "main",
         "description": "main",
-        "peekOfCode": "class Game:\n    def __init__(self):\n        self.screen = screen\n        self.clock = pygame.time.Clock()\n        self.running = True\n        self.background_offset = 0\n        # Create game objects\n        self.player = Player(100, SCREEN_HEIGHT - 70)\n        self.zombie1 = Zombie(400, SCREEN_HEIGHT - 70)\n        self.zombie2 = Zombie(800, SCREEN_HEIGHT - 70)",
+        "peekOfCode": "class Game:\n    def __init__(self):\n        self.screen = screen\n        self.clock = pygame.time.Clock()\n        self.running = True\n        self.background_offset = 0\n        self.show_menu = True  # Flag to show the menu\n        # Create game objects\n        self.player = Player(100, SCREEN_HEIGHT - 70)\n        self.zombie1 = Zombie(400, SCREEN_HEIGHT - 70)",
         "detail": "main",
         "documentation": {}
     },
@@ -58,7 +76,7 @@
         "kind": 5,
         "importPath": "main",
         "description": "main",
-        "peekOfCode": "FPS = 60\nBACKGROUND_WIDTH = SCREEN_WIDTH\n# Colors\nWHITE = (255, 255, 255)\nBLACK = (0, 0, 0)\n# Initialize screen\nscreen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))\npygame.display.set_caption(\"The Adventures of Py.Man\")\n# Load assets\nmario_image = pygame.image.load('images/mario.png')",
+        "peekOfCode": "FPS = 60\nBACKGROUND_WIDTH = SCREEN_WIDTH\n# Colors\nWHITE = (255, 255, 255)\nBLACK = (0, 0, 0)\nRED = (255, 0, 0)\n# Initialize screen\nscreen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))\npygame.display.set_caption(\"The Adventures of Py.Man\")\n# Load assets",
         "detail": "main",
         "documentation": {}
     },
@@ -67,7 +85,7 @@
         "kind": 5,
         "importPath": "main",
         "description": "main",
-        "peekOfCode": "BACKGROUND_WIDTH = SCREEN_WIDTH\n# Colors\nWHITE = (255, 255, 255)\nBLACK = (0, 0, 0)\n# Initialize screen\nscreen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))\npygame.display.set_caption(\"The Adventures of Py.Man\")\n# Load assets\nmario_image = pygame.image.load('images/mario.png')\nzombie1_image = pygame.image.load('images/zombie1.png')",
+        "peekOfCode": "BACKGROUND_WIDTH = SCREEN_WIDTH\n# Colors\nWHITE = (255, 255, 255)\nBLACK = (0, 0, 0)\nRED = (255, 0, 0)\n# Initialize screen\nscreen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))\npygame.display.set_caption(\"The Adventures of Py.Man\")\n# Load assets\nmario_image = pygame.image.load('images/mario.png')",
         "detail": "main",
         "documentation": {}
     },
@@ -76,7 +94,7 @@
         "kind": 5,
         "importPath": "main",
         "description": "main",
-        "peekOfCode": "WHITE = (255, 255, 255)\nBLACK = (0, 0, 0)\n# Initialize screen\nscreen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))\npygame.display.set_caption(\"The Adventures of Py.Man\")\n# Load assets\nmario_image = pygame.image.load('images/mario.png')\nzombie1_image = pygame.image.load('images/zombie1.png')\nog_background_image = pygame.image.load('images/background.png')\nbackground_image = pygame.transform.scale(og_background_image, (SCREEN_WIDTH, SCREEN_HEIGHT))",
+        "peekOfCode": "WHITE = (255, 255, 255)\nBLACK = (0, 0, 0)\nRED = (255, 0, 0)\n# Initialize screen\nscreen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))\npygame.display.set_caption(\"The Adventures of Py.Man\")\n# Load assets\nmario_image = pygame.image.load('images/mario.png')\nzombie1_image = pygame.image.load('images/zombie1.png')\nog_background_image = pygame.image.load('images/background.png')",
         "detail": "main",
         "documentation": {}
     },
@@ -85,7 +103,16 @@
         "kind": 5,
         "importPath": "main",
         "description": "main",
-        "peekOfCode": "BLACK = (0, 0, 0)\n# Initialize screen\nscreen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))\npygame.display.set_caption(\"The Adventures of Py.Man\")\n# Load assets\nmario_image = pygame.image.load('images/mario.png')\nzombie1_image = pygame.image.load('images/zombie1.png')\nog_background_image = pygame.image.load('images/background.png')\nbackground_image = pygame.transform.scale(og_background_image, (SCREEN_WIDTH, SCREEN_HEIGHT))\nclass Player(pygame.sprite.Sprite):",
+        "peekOfCode": "BLACK = (0, 0, 0)\nRED = (255, 0, 0)\n# Initialize screen\nscreen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))\npygame.display.set_caption(\"The Adventures of Py.Man\")\n# Load assets\nmario_image = pygame.image.load('images/mario.png')\nzombie1_image = pygame.image.load('images/zombie1.png')\nog_background_image = pygame.image.load('images/background.png')\nbackground_image = pygame.transform.scale(og_background_image, (SCREEN_WIDTH, SCREEN_HEIGHT))",
+        "detail": "main",
+        "documentation": {}
+    },
+    {
+        "label": "RED",
+        "kind": 5,
+        "importPath": "main",
+        "description": "main",
+        "peekOfCode": "RED = (255, 0, 0)\n# Initialize screen\nscreen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))\npygame.display.set_caption(\"The Adventures of Py.Man\")\n# Load assets\nmario_image = pygame.image.load('images/mario.png')\nzombie1_image = pygame.image.load('images/zombie1.png')\nog_background_image = pygame.image.load('images/background.png')\nbackground_image = pygame.transform.scale(og_background_image, (SCREEN_WIDTH, SCREEN_HEIGHT))\n# Fonts",
         "detail": "main",
         "documentation": {}
     },
@@ -94,7 +121,7 @@
         "kind": 5,
         "importPath": "main",
         "description": "main",
-        "peekOfCode": "screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))\npygame.display.set_caption(\"The Adventures of Py.Man\")\n# Load assets\nmario_image = pygame.image.load('images/mario.png')\nzombie1_image = pygame.image.load('images/zombie1.png')\nog_background_image = pygame.image.load('images/background.png')\nbackground_image = pygame.transform.scale(og_background_image, (SCREEN_WIDTH, SCREEN_HEIGHT))\nclass Player(pygame.sprite.Sprite):\n    def __init__(self, x, y):\n        super().__init__()",
+        "peekOfCode": "screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))\npygame.display.set_caption(\"The Adventures of Py.Man\")\n# Load assets\nmario_image = pygame.image.load('images/mario.png')\nzombie1_image = pygame.image.load('images/zombie1.png')\nog_background_image = pygame.image.load('images/background.png')\nbackground_image = pygame.transform.scale(og_background_image, (SCREEN_WIDTH, SCREEN_HEIGHT))\n# Fonts\nfont = pygame.font.SysFont(None, 55)\nclass Player(pygame.sprite.Sprite):",
         "detail": "main",
         "documentation": {}
     },
@@ -103,7 +130,7 @@
         "kind": 5,
         "importPath": "main",
         "description": "main",
-        "peekOfCode": "mario_image = pygame.image.load('images/mario.png')\nzombie1_image = pygame.image.load('images/zombie1.png')\nog_background_image = pygame.image.load('images/background.png')\nbackground_image = pygame.transform.scale(og_background_image, (SCREEN_WIDTH, SCREEN_HEIGHT))\nclass Player(pygame.sprite.Sprite):\n    def __init__(self, x, y):\n        super().__init__()\n        self.image = pygame.transform.scale(mario_image, (32, 32))\n        self.rect = self.image.get_rect()\n        self.rect.topleft = (x, y)",
+        "peekOfCode": "mario_image = pygame.image.load('images/mario.png')\nzombie1_image = pygame.image.load('images/zombie1.png')\nog_background_image = pygame.image.load('images/background.png')\nbackground_image = pygame.transform.scale(og_background_image, (SCREEN_WIDTH, SCREEN_HEIGHT))\n# Fonts\nfont = pygame.font.SysFont(None, 55)\nclass Player(pygame.sprite.Sprite):\n    def __init__(self, x, y):\n        super().__init__()\n        self.image = pygame.transform.scale(mario_image, (32, 32))",
         "detail": "main",
         "documentation": {}
     },
@@ -112,7 +139,7 @@
         "kind": 5,
         "importPath": "main",
         "description": "main",
-        "peekOfCode": "zombie1_image = pygame.image.load('images/zombie1.png')\nog_background_image = pygame.image.load('images/background.png')\nbackground_image = pygame.transform.scale(og_background_image, (SCREEN_WIDTH, SCREEN_HEIGHT))\nclass Player(pygame.sprite.Sprite):\n    def __init__(self, x, y):\n        super().__init__()\n        self.image = pygame.transform.scale(mario_image, (32, 32))\n        self.rect = self.image.get_rect()\n        self.rect.topleft = (x, y)\n        self.velocity = pygame.math.Vector2(0, 0)",
+        "peekOfCode": "zombie1_image = pygame.image.load('images/zombie1.png')\nog_background_image = pygame.image.load('images/background.png')\nbackground_image = pygame.transform.scale(og_background_image, (SCREEN_WIDTH, SCREEN_HEIGHT))\n# Fonts\nfont = pygame.font.SysFont(None, 55)\nclass Player(pygame.sprite.Sprite):\n    def __init__(self, x, y):\n        super().__init__()\n        self.image = pygame.transform.scale(mario_image, (32, 32))\n        self.rect = self.image.get_rect()",
         "detail": "main",
         "documentation": {}
     },
@@ -121,7 +148,7 @@
         "kind": 5,
         "importPath": "main",
         "description": "main",
-        "peekOfCode": "og_background_image = pygame.image.load('images/background.png')\nbackground_image = pygame.transform.scale(og_background_image, (SCREEN_WIDTH, SCREEN_HEIGHT))\nclass Player(pygame.sprite.Sprite):\n    def __init__(self, x, y):\n        super().__init__()\n        self.image = pygame.transform.scale(mario_image, (32, 32))\n        self.rect = self.image.get_rect()\n        self.rect.topleft = (x, y)\n        self.velocity = pygame.math.Vector2(0, 0)\n        self.speed = 2.5",
+        "peekOfCode": "og_background_image = pygame.image.load('images/background.png')\nbackground_image = pygame.transform.scale(og_background_image, (SCREEN_WIDTH, SCREEN_HEIGHT))\n# Fonts\nfont = pygame.font.SysFont(None, 55)\nclass Player(pygame.sprite.Sprite):\n    def __init__(self, x, y):\n        super().__init__()\n        self.image = pygame.transform.scale(mario_image, (32, 32))\n        self.rect = self.image.get_rect()\n        self.rect.topleft = (x, y)",
         "detail": "main",
         "documentation": {}
     },
@@ -130,7 +157,16 @@
         "kind": 5,
         "importPath": "main",
         "description": "main",
-        "peekOfCode": "background_image = pygame.transform.scale(og_background_image, (SCREEN_WIDTH, SCREEN_HEIGHT))\nclass Player(pygame.sprite.Sprite):\n    def __init__(self, x, y):\n        super().__init__()\n        self.image = pygame.transform.scale(mario_image, (32, 32))\n        self.rect = self.image.get_rect()\n        self.rect.topleft = (x, y)\n        self.velocity = pygame.math.Vector2(0, 0)\n        self.speed = 2.5\n        self.jump_speed = -15",
+        "peekOfCode": "background_image = pygame.transform.scale(og_background_image, (SCREEN_WIDTH, SCREEN_HEIGHT))\n# Fonts\nfont = pygame.font.SysFont(None, 55)\nclass Player(pygame.sprite.Sprite):\n    def __init__(self, x, y):\n        super().__init__()\n        self.image = pygame.transform.scale(mario_image, (32, 32))\n        self.rect = self.image.get_rect()\n        self.rect.topleft = (x, y)\n        self.velocity = pygame.math.Vector2(0, 0)",
+        "detail": "main",
+        "documentation": {}
+    },
+    {
+        "label": "font",
+        "kind": 5,
+        "importPath": "main",
+        "description": "main",
+        "peekOfCode": "font = pygame.font.SysFont(None, 55)\nclass Player(pygame.sprite.Sprite):\n    def __init__(self, x, y):\n        super().__init__()\n        self.image = pygame.transform.scale(mario_image, (32, 32))\n        self.rect = self.image.get_rect()\n        self.rect.topleft = (x, y)\n        self.velocity = pygame.math.Vector2(0, 0)\n        self.speed = 2.5\n        self.jump_speed = -15",
         "detail": "main",
         "documentation": {}
     }
