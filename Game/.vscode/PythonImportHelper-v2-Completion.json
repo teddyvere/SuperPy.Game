@@ -1,0 +1,164 @@
+[
+    {
+        "label": "pygame",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "pygame",
+        "description": "pygame",
+        "detail": "pygame",
+        "documentation": {}
+    },
+    {
+        "label": "sys",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "sys",
+        "description": "sys",
+        "detail": "sys",
+        "documentation": {}
+    },
+    {
+        "label": "numpy",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "numpy",
+        "description": "numpy",
+        "detail": "numpy",
+        "documentation": {}
+    },
+    {
+        "label": "scipy.ndimage",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "scipy.ndimage",
+        "description": "scipy.ndimage",
+        "detail": "scipy.ndimage",
+        "documentation": {}
+    },
+    {
+        "label": "Player",
+        "kind": 6,
+        "importPath": "main",
+        "description": "main",
+        "peekOfCode": "class Player(pygame.sprite.Sprite):\n    def __init__(self, x, y):\n        super().__init__()\n        # Load movement images\n        self.jump_images = [pygame.transform.scale(pygame.image.load(f'animation/player/mario_jump{i}.png'),(40,64)) for i in range(1) ]\n        self.images = [pygame.transform.scale(pygame.image.load(f'animation/player/mario_run{i}.png'),(40,64)) for i in range(4)]\n        self.index = 0\n        self.jump_index = 0\n        self.image = self.images[self.index]\n        self.rect = self.image.get_rect()",
+        "detail": "main",
+        "documentation": {}
+    },
+    {
+        "label": "Zombie",
+        "kind": 6,
+        "importPath": "main",
+        "description": "main",
+        "peekOfCode": "class Zombie(pygame.sprite.Sprite):\n    def __init__(self, x, y):\n        super().__init__()\n        self.original_image = pygame.transform.scale(zombie1_image, (32, 70))  # Store the original (non-flipped) image\n        self.image = self.original_image  # Initially set the current image to the original\n        self.rect = self.image.get_rect()\n        self.rect.topleft = (x, y)\n        self.velocity = 2.5  # Speed of the zombie\n        self.move_direction = 1\n        self.boundary_left = x - 250  # Left boundary",
+        "detail": "main",
+        "documentation": {}
+    },
+    {
+        "label": "Platform",
+        "kind": 6,
+        "importPath": "main",
+        "description": "main",
+        "peekOfCode": "class Platform(pygame.sprite.Sprite):\n    def __init__(self, x, y, width, height):\n        super().__init__()\n        self.image = pygame.Surface((width, height))\n        self.image.fill((128, 128, 128))  # Fill with gray color\n        # Draw black border\n        pygame.draw.rect(self.image, BLACK, self.image.get_rect(), 3)  # 3 pixels for the border width\n        self.rect = self.image.get_rect()\n        self.rect.topleft = (x, y)\nclass Game:",
+        "detail": "main",
+        "documentation": {}
+    },
+    {
+        "label": "Game",
+        "kind": 6,
+        "importPath": "main",
+        "description": "main",
+        "peekOfCode": "class Game:\n    def __init__(self):\n        self.screen = screen\n        self.clock = pygame.time.Clock()\n        self.running = True\n        self.background_offset = 0\n        self.show_menu = True  # Flag to show the menu\n        # Create player object\n        self.player = Player(100, SCREEN_HEIGHT - 70)\n        # Create a list of zombies",
+        "detail": "main",
+        "documentation": {}
+    },
+    {
+        "label": "FPS",
+        "kind": 5,
+        "importPath": "main",
+        "description": "main",
+        "peekOfCode": "FPS = 60\nBACKGROUND_WIDTH = SCREEN_WIDTH\n# Colors\nWHITE = (255, 255, 255)\nBLACK = (0, 0, 0)\nRED = (255, 0, 0)\n# Initialize screen\nscreen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))\npygame.display.set_caption(\"The Adventures of Py.Man\")\n# Load assets",
+        "detail": "main",
+        "documentation": {}
+    },
+    {
+        "label": "BACKGROUND_WIDTH",
+        "kind": 5,
+        "importPath": "main",
+        "description": "main",
+        "peekOfCode": "BACKGROUND_WIDTH = SCREEN_WIDTH\n# Colors\nWHITE = (255, 255, 255)\nBLACK = (0, 0, 0)\nRED = (255, 0, 0)\n# Initialize screen\nscreen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))\npygame.display.set_caption(\"The Adventures of Py.Man\")\n# Load assets\nzombie1_image = pygame.image.load('images/zombie1.png')",
+        "detail": "main",
+        "documentation": {}
+    },
+    {
+        "label": "WHITE",
+        "kind": 5,
+        "importPath": "main",
+        "description": "main",
+        "peekOfCode": "WHITE = (255, 255, 255)\nBLACK = (0, 0, 0)\nRED = (255, 0, 0)\n# Initialize screen\nscreen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))\npygame.display.set_caption(\"The Adventures of Py.Man\")\n# Load assets\nzombie1_image = pygame.image.load('images/zombie1.png')\nog_background_image = pygame.image.load('images/background.png')\nbackground_image = pygame.transform.scale(og_background_image, (SCREEN_WIDTH, SCREEN_HEIGHT))",
+        "detail": "main",
+        "documentation": {}
+    },
+    {
+        "label": "BLACK",
+        "kind": 5,
+        "importPath": "main",
+        "description": "main",
+        "peekOfCode": "BLACK = (0, 0, 0)\nRED = (255, 0, 0)\n# Initialize screen\nscreen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))\npygame.display.set_caption(\"The Adventures of Py.Man\")\n# Load assets\nzombie1_image = pygame.image.load('images/zombie1.png')\nog_background_image = pygame.image.load('images/background.png')\nbackground_image = pygame.transform.scale(og_background_image, (SCREEN_WIDTH, SCREEN_HEIGHT))\n# Fonts",
+        "detail": "main",
+        "documentation": {}
+    },
+    {
+        "label": "RED",
+        "kind": 5,
+        "importPath": "main",
+        "description": "main",
+        "peekOfCode": "RED = (255, 0, 0)\n# Initialize screen\nscreen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))\npygame.display.set_caption(\"The Adventures of Py.Man\")\n# Load assets\nzombie1_image = pygame.image.load('images/zombie1.png')\nog_background_image = pygame.image.load('images/background.png')\nbackground_image = pygame.transform.scale(og_background_image, (SCREEN_WIDTH, SCREEN_HEIGHT))\n# Fonts\nfont = pygame.font.SysFont(None, 55)",
+        "detail": "main",
+        "documentation": {}
+    },
+    {
+        "label": "screen",
+        "kind": 5,
+        "importPath": "main",
+        "description": "main",
+        "peekOfCode": "screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))\npygame.display.set_caption(\"The Adventures of Py.Man\")\n# Load assets\nzombie1_image = pygame.image.load('images/zombie1.png')\nog_background_image = pygame.image.load('images/background.png')\nbackground_image = pygame.transform.scale(og_background_image, (SCREEN_WIDTH, SCREEN_HEIGHT))\n# Fonts\nfont = pygame.font.SysFont(None, 55)\nclass Player(pygame.sprite.Sprite):\n    def __init__(self, x, y):",
+        "detail": "main",
+        "documentation": {}
+    },
+    {
+        "label": "zombie1_image",
+        "kind": 5,
+        "importPath": "main",
+        "description": "main",
+        "peekOfCode": "zombie1_image = pygame.image.load('images/zombie1.png')\nog_background_image = pygame.image.load('images/background.png')\nbackground_image = pygame.transform.scale(og_background_image, (SCREEN_WIDTH, SCREEN_HEIGHT))\n# Fonts\nfont = pygame.font.SysFont(None, 55)\nclass Player(pygame.sprite.Sprite):\n    def __init__(self, x, y):\n        super().__init__()\n        # Load movement images\n        self.jump_images = [pygame.transform.scale(pygame.image.load(f'animation/player/mario_jump{i}.png'),(40,64)) for i in range(1) ]",
+        "detail": "main",
+        "documentation": {}
+    },
+    {
+        "label": "og_background_image",
+        "kind": 5,
+        "importPath": "main",
+        "description": "main",
+        "peekOfCode": "og_background_image = pygame.image.load('images/background.png')\nbackground_image = pygame.transform.scale(og_background_image, (SCREEN_WIDTH, SCREEN_HEIGHT))\n# Fonts\nfont = pygame.font.SysFont(None, 55)\nclass Player(pygame.sprite.Sprite):\n    def __init__(self, x, y):\n        super().__init__()\n        # Load movement images\n        self.jump_images = [pygame.transform.scale(pygame.image.load(f'animation/player/mario_jump{i}.png'),(40,64)) for i in range(1) ]\n        self.images = [pygame.transform.scale(pygame.image.load(f'animation/player/mario_run{i}.png'),(40,64)) for i in range(4)]",
+        "detail": "main",
+        "documentation": {}
+    },
+    {
+        "label": "background_image",
+        "kind": 5,
+        "importPath": "main",
+        "description": "main",
+        "peekOfCode": "background_image = pygame.transform.scale(og_background_image, (SCREEN_WIDTH, SCREEN_HEIGHT))\n# Fonts\nfont = pygame.font.SysFont(None, 55)\nclass Player(pygame.sprite.Sprite):\n    def __init__(self, x, y):\n        super().__init__()\n        # Load movement images\n        self.jump_images = [pygame.transform.scale(pygame.image.load(f'animation/player/mario_jump{i}.png'),(40,64)) for i in range(1) ]\n        self.images = [pygame.transform.scale(pygame.image.load(f'animation/player/mario_run{i}.png'),(40,64)) for i in range(4)]\n        self.index = 0",
+        "detail": "main",
+        "documentation": {}
+    },
+    {
+        "label": "font",
+        "kind": 5,
+        "importPath": "main",
+        "description": "main",
+        "peekOfCode": "font = pygame.font.SysFont(None, 55)\nclass Player(pygame.sprite.Sprite):\n    def __init__(self, x, y):\n        super().__init__()\n        # Load movement images\n        self.jump_images = [pygame.transform.scale(pygame.image.load(f'animation/player/mario_jump{i}.png'),(40,64)) for i in range(1) ]\n        self.images = [pygame.transform.scale(pygame.image.load(f'animation/player/mario_run{i}.png'),(40,64)) for i in range(4)]\n        self.index = 0\n        self.jump_index = 0\n        self.image = self.images[self.index]",
+        "detail": "main",
+        "documentation": {}
+    }
+]
