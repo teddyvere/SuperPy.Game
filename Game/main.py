@@ -217,7 +217,7 @@ class Game:
             self.all_sprites.add(platform)
 
         self.backgrounds = [background_image.copy(), background_image.copy()]
-        self.background_x = [0, SCREEN_WIDTH + 200]  # Positions of the two backgrounds
+        self.background_x = [0, SCREEN_WIDTH]  # Positions of the two backgrounds
 
     def run(self):
         while self.running:
