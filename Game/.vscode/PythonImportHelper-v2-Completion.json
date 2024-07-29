@@ -49,7 +49,7 @@
         "kind": 6,
         "importPath": "main",
         "description": "main",
-        "peekOfCode": "class Zombie(pygame.sprite.Sprite):\n    def __init__(self, x, y):\n        super().__init__()\n        self.original_image = pygame.transform.scale(zombie1_image, (32, 70))  # Store the original (non-flipped) image\n        self.image = self.original_image  # Initially set the current image to the original\n        self.rect = self.image.get_rect()\n        self.rect.topleft = (x, y)\n        self.velocity = 2.5  # Speed of the zombie\n        self.move_direction = 1\n        self.boundary_left = x - 250  # Left boundary",
+        "peekOfCode": "class Zombie(pygame.sprite.Sprite):\n    def __init__(self, x, y):\n        super().__init__()\n        self.images = [pygame.transform.scale(pygame.image.load(f'animation/zombie/zombie_walk{i}.png'),(64,64)) for i in range(2)]\n        self.index = 0\n        self.image = self.images[self.index]\n        self.rect = self.image.get_rect()\n        self.rect.topleft = (x, y)\n        self.velocity = 2.5  # Speed of the zombie\n        self.move_direction = 1",
         "detail": "main",
         "documentation": {}
     },

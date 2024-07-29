@@ -39,7 +39,6 @@ class Player(pygame.sprite.Sprite):
         self.image = self.images[self.index]
         self.rect = self.image.get_rect()
         self.rect.topleft = (x, y)
-        
         # Player movement properties
         self.velocity = pygame.math.Vector2(0, 0)
         self.speed = 2
@@ -49,7 +48,6 @@ class Player(pygame.sprite.Sprite):
         self.fall_gravity = 0.25
         self.on_ground = True
         self.jump_pressed = False  # Flag to avoid holding jump
-        
         # Animation properties
         self.animation_timer = 0  # Timer for frame updating
         self.animation_speed = 150  # Milliseconds for each frame
@@ -105,8 +103,7 @@ class Player(pygame.sprite.Sprite):
             else:  # If not moving horizontally and on the ground
                 self.index = 0
                 self.image = self.images[self.index]
-            
-            
+
             # Flip the image based on the direction of movement
             if self.velocity.x < 0:  # Moving left
                 self.image = pygame.transform.flip(self.images[self.index], True, False)  # Flip horizontally
@@ -116,14 +113,19 @@ class Player(pygame.sprite.Sprite):
 class Zombie(pygame.sprite.Sprite):
     def __init__(self, x, y):
         super().__init__()
-        self.original_image = pygame.transform.scale(zombie1_image, (32, 70))  # Store the original (non-flipped) image
-        self.image = self.original_image  # Initially set the current image to the original
+        self.images = [pygame.transform.scale(pygame.image.load(f'animation/zombie/zombie_walk{i}.png'),(64,64)) for i in range(2)]
+        self.index = 0
+        self.image = self.images[self.index]
         self.rect = self.image.get_rect()
         self.rect.topleft = (x, y)
         self.velocity = 2.5  # Speed of the zombie
         self.move_direction = 1
         self.boundary_left = x - 250  # Left boundary
         self.boundary_right = x + 50  # Right boundary
+        # Animation properties
+        self.animation_timer = 0  # Timer for frame updating
+        self.animation_speed = 150  # Milliseconds for each frame
+        self.last_update = pygame.time.get_ticks()  # Last update time
     
     def update(self):
         # Move back and forth
@@ -139,10 +141,30 @@ class Zombie(pygame.sprite.Sprite):
             
         # Flip the image based on the direction of movement
         if self.move_direction >= 0:  # Moving left
-            self.image = pygame.transform.flip(self.original_image, True, False)  # Flip horizontally
+            self.image = pygame.transform.flip(self.image, True, False)  # Flip horizontally
         else:  # Moving right
-            self.image = self.original_image  # Use the original image
-
+            self.image = self.image  # Use the original image
+            
+        self.animate()
+        
+    def animate(self):
+        current_time = pygame.time.get_ticks()
+        # Check if it's time to update the frame
+        if current_time - self.last_update > self.animation_speed:
+            self.last_update = current_time
+            
+        # Update the frame index regardless of velocity to constantly animate zombie walk
+            self.index = (self.index + 1) % len(self.images)
+            self.image = self.images[self.index]    
+        
+        # Flip the image based on the direction of movement
+        if self.move_direction == -1:  # Moving left
+            self.image = pygame.transform.flip(self.images[self.index], True, False)  # Flip horizontally
+        else:  # Moving right
+            self.image = self.images[self.index]  # Use the original image
+                            
+            
+            
 
 class Platform(pygame.sprite.Sprite):
     def __init__(self, x, y, width, height):
