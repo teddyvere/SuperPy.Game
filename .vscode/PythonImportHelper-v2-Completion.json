@@ -85,7 +85,7 @@
         "kind": 5,
         "importPath": "main",
         "description": "main",
-        "peekOfCode": "BACKGROUND_WIDTH = SCREEN_WIDTH\n# Colors\nWHITE = (255, 255, 255)\nBLACK = (0, 0, 0)\nRED = (255, 0, 0)\n# Initialize screen\nscreen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))\npygame.display.set_caption(\"The Adventures of Py.Man\")\n# Load assets\nzombie1_image = pygame.image.load('images/zombie1.png')",
+        "peekOfCode": "BACKGROUND_WIDTH = SCREEN_WIDTH\n# Colors\nWHITE = (255, 255, 255)\nBLACK = (0, 0, 0)\nRED = (255, 0, 0)\n# Initialize screen\nscreen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))\npygame.display.set_caption(\"The Adventures of Py.Man\")\n# Load assets\nog_background_image = pygame.image.load('images/background.png')",
         "detail": "main",
         "documentation": {}
     },
@@ -94,7 +94,7 @@
         "kind": 5,
         "importPath": "main",
         "description": "main",
-        "peekOfCode": "WHITE = (255, 255, 255)\nBLACK = (0, 0, 0)\nRED = (255, 0, 0)\n# Initialize screen\nscreen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))\npygame.display.set_caption(\"The Adventures of Py.Man\")\n# Load assets\nzombie1_image = pygame.image.load('images/zombie1.png')\nog_background_image = pygame.image.load('images/background.png')\nbackground_image = pygame.transform.scale(og_background_image, (SCREEN_WIDTH, SCREEN_HEIGHT))",
+        "peekOfCode": "WHITE = (255, 255, 255)\nBLACK = (0, 0, 0)\nRED = (255, 0, 0)\n# Initialize screen\nscreen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))\npygame.display.set_caption(\"The Adventures of Py.Man\")\n# Load assets\nog_background_image = pygame.image.load('images/background.png')\nbackground_image = pygame.transform.scale(og_background_image, (SCREEN_WIDTH, SCREEN_HEIGHT))\n# Fonts",
         "detail": "main",
         "documentation": {}
     },
@@ -103,7 +103,7 @@
         "kind": 5,
         "importPath": "main",
         "description": "main",
-        "peekOfCode": "BLACK = (0, 0, 0)\nRED = (255, 0, 0)\n# Initialize screen\nscreen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))\npygame.display.set_caption(\"The Adventures of Py.Man\")\n# Load assets\nzombie1_image = pygame.image.load('images/zombie1.png')\nog_background_image = pygame.image.load('images/background.png')\nbackground_image = pygame.transform.scale(og_background_image, (SCREEN_WIDTH, SCREEN_HEIGHT))\n# Fonts",
+        "peekOfCode": "BLACK = (0, 0, 0)\nRED = (255, 0, 0)\n# Initialize screen\nscreen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))\npygame.display.set_caption(\"The Adventures of Py.Man\")\n# Load assets\nog_background_image = pygame.image.load('images/background.png')\nbackground_image = pygame.transform.scale(og_background_image, (SCREEN_WIDTH, SCREEN_HEIGHT))\n# Fonts\nfont = pygame.font.SysFont(None, 55)",
         "detail": "main",
         "documentation": {}
     },
@@ -112,7 +112,7 @@
         "kind": 5,
         "importPath": "main",
         "description": "main",
-        "peekOfCode": "RED = (255, 0, 0)\n# Initialize screen\nscreen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))\npygame.display.set_caption(\"The Adventures of Py.Man\")\n# Load assets\nzombie1_image = pygame.image.load('images/zombie1.png')\nog_background_image = pygame.image.load('images/background.png')\nbackground_image = pygame.transform.scale(og_background_image, (SCREEN_WIDTH, SCREEN_HEIGHT))\n# Fonts\nfont = pygame.font.SysFont(None, 55)",
+        "peekOfCode": "RED = (255, 0, 0)\n# Initialize screen\nscreen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))\npygame.display.set_caption(\"The Adventures of Py.Man\")\n# Load assets\nog_background_image = pygame.image.load('images/background.png')\nbackground_image = pygame.transform.scale(og_background_image, (SCREEN_WIDTH, SCREEN_HEIGHT))\n# Fonts\nfont = pygame.font.SysFont(None, 55)\nclass Player(pygame.sprite.Sprite):",
         "detail": "main",
         "documentation": {}
     },
@@ -121,16 +121,7 @@
         "kind": 5,
         "importPath": "main",
         "description": "main",
-        "peekOfCode": "screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))\npygame.display.set_caption(\"The Adventures of Py.Man\")\n# Load assets\nzombie1_image = pygame.image.load('images/zombie1.png')\nog_background_image = pygame.image.load('images/background.png')\nbackground_image = pygame.transform.scale(og_background_image, (SCREEN_WIDTH, SCREEN_HEIGHT))\n# Fonts\nfont = pygame.font.SysFont(None, 55)\nclass Player(pygame.sprite.Sprite):\n    def __init__(self, x, y):",
-        "detail": "main",
-        "documentation": {}
-    },
-    {
-        "label": "zombie1_image",
-        "kind": 5,
-        "importPath": "main",
-        "description": "main",
-        "peekOfCode": "zombie1_image = pygame.image.load('images/zombie1.png')\nog_background_image = pygame.image.load('images/background.png')\nbackground_image = pygame.transform.scale(og_background_image, (SCREEN_WIDTH, SCREEN_HEIGHT))\n# Fonts\nfont = pygame.font.SysFont(None, 55)\nclass Player(pygame.sprite.Sprite):\n    def __init__(self, x, y):\n        super().__init__()\n        # Load movement images\n        self.jump_images = [pygame.transform.scale(pygame.image.load(f'animation/player/mario_jump{i}.png'),(40,64)) for i in range(1) ]",
+        "peekOfCode": "screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))\npygame.display.set_caption(\"The Adventures of Py.Man\")\n# Load assets\nog_background_image = pygame.image.load('images/background.png')\nbackground_image = pygame.transform.scale(og_background_image, (SCREEN_WIDTH, SCREEN_HEIGHT))\n# Fonts\nfont = pygame.font.SysFont(None, 55)\nclass Player(pygame.sprite.Sprite):\n    def __init__(self, x, y):\n        super().__init__()",
         "detail": "main",
         "documentation": {}
     },

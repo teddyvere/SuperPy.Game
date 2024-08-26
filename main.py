@@ -21,7 +21,6 @@ screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 pygame.display.set_caption("The Adventures of Py.Man")
 
 # Load assets
-zombie1_image = pygame.image.load('images/zombie1.png')
 og_background_image = pygame.image.load('images/background.png')
 background_image = pygame.transform.scale(og_background_image, (SCREEN_WIDTH, SCREEN_HEIGHT))
 
@@ -31,13 +30,14 @@ font = pygame.font.SysFont(None, 55)
 class Player(pygame.sprite.Sprite):
     def __init__(self, x, y):
         super().__init__()
-        # Load running images
+        # Load movement images
+        self.jump_images = [pygame.transform.scale(pygame.image.load(f'animation/player/mario_jump{i}.png'),(40,64)) for i in range(1) ]
         self.images = [pygame.transform.scale(pygame.image.load(f'animation/player/mario_run{i}.png'),(40,64)) for i in range(4)]
         self.index = 0
+        self.jump_index = 0
         self.image = self.images[self.index]
         self.rect = self.image.get_rect()
         self.rect.topleft = (x, y)
-        
         # Player movement properties
         self.velocity = pygame.math.Vector2(0, 0)
         self.speed = 2
@@ -47,7 +47,6 @@ class Player(pygame.sprite.Sprite):
         self.fall_gravity = 0.25
         self.on_ground = True
         self.jump_pressed = False  # Flag to avoid holding jump
-        
         # Animation properties
         self.animation_timer = 0  # Timer for frame updating
         self.animation_speed = 150  # Milliseconds for each frame
@@ -66,6 +65,7 @@ class Player(pygame.sprite.Sprite):
         if self.on_ground and keys[pygame.K_w]:
             self.velocity.y = self.jump_speed
             self.on_ground = False  # Now in the air
+        
 
         # Apply gravity
         if self.velocity.y < 0:
@@ -92,15 +92,17 @@ class Player(pygame.sprite.Sprite):
         if current_time - self.last_update > self.animation_speed:
             self.last_update = current_time
             
-            # Update the frame index based on velocity
-            if self.velocity.x != 0:  # If moving, update animation
-                self.index = (self.index + 1) % len(self.images)  # Loop through images
-            else:
-                self.index = 0  # If not moving, reset to the first frame
-            
-            # Update the current image
-            self.image = self.images[self.index]
-            
+            # Update the frame index based on velocity and state
+            if self.on_ground == False:  # If jumping up
+                self.index = (self.index + 1) % len(self.jump_images)  # Loop through jump images
+                self.image = self.jump_images[self.index]
+            elif self.velocity.x != 0:  # If moving horizontally
+                self.index = (self.index + 1) % len(self.images)  # Loop through run images
+                self.image = self.images[self.index]
+            else:  # If not moving horizontally and on the ground
+                self.index = 0
+                self.image = self.images[self.index]
+
             # Flip the image based on the direction of movement
             if self.velocity.x < 0:  # Moving left
                 self.image = pygame.transform.flip(self.images[self.index], True, False)  # Flip horizontally
@@ -110,14 +112,19 @@ class Player(pygame.sprite.Sprite):
 class Zombie(pygame.sprite.Sprite):
     def __init__(self, x, y):
         super().__init__()
-        self.original_image = pygame.transform.scale(zombie1_image, (32, 70))  # Store the original (non-flipped) image
-        self.image = self.original_image  # Initially set the current image to the original
+        self.images = [pygame.transform.scale(pygame.image.load(f'animation/zombie/zombie_walk{i}.png'),(64,64)) for i in range(2)]
+        self.index = 0
+        self.image = self.images[self.index]
         self.rect = self.image.get_rect()
         self.rect.topleft = (x, y)
         self.velocity = 2.5  # Speed of the zombie
         self.move_direction = 1
         self.boundary_left = x - 250  # Left boundary
         self.boundary_right = x + 50  # Right boundary
+        # Animation properties
+        self.animation_timer = 0  # Timer for frame updating
+        self.animation_speed = 150  # Milliseconds for each frame
+        self.last_update = pygame.time.get_ticks()  # Last update time
     
     def update(self):
         # Move back and forth
@@ -132,11 +139,31 @@ class Zombie(pygame.sprite.Sprite):
             self.move_direction = -1  # Move left after hitting right boundary
             
         # Flip the image based on the direction of movement
-        if self.move_direction < 0:  # Moving left
-            self.image = pygame.transform.flip(self.original_image, True, False)  # Flip horizontally
+        if self.move_direction >= 0:  # Moving left
+            self.image = pygame.transform.flip(self.image, True, False)  # Flip horizontally
         else:  # Moving right
-            self.image = self.original_image  # Use the original image
-
+            self.image = self.image  # Use the original image
+            
+        self.animate()
+        
+    def animate(self):
+        current_time = pygame.time.get_ticks()
+        # Check if it's time to update the frame
+        if current_time - self.last_update > self.animation_speed:
+            self.last_update = current_time
+            
+        # Update the frame index regardless of velocity to constantly animate zombie walk
+            self.index = (self.index + 1) % len(self.images)
+            self.image = self.images[self.index]    
+        
+        # Flip the image based on the direction of movement
+        if self.move_direction == -1:  # Moving left
+            self.image = pygame.transform.flip(self.images[self.index], True, False)  # Flip horizontally
+        else:  # Moving right
+            self.image = self.images[self.index]  # Use the original image
+                            
+            
+            
 
 class Platform(pygame.sprite.Sprite):
     def __init__(self, x, y, width, height):
@@ -166,27 +193,30 @@ class Game:
             Zombie(800, SCREEN_HEIGHT - 70)
         ]
         
-        # Create platforms
-        self.platform1 = Platform(300, SCREEN_HEIGHT - 100, 150, 20)
-        self.platform2 = Platform(1100, SCREEN_HEIGHT - 150, 200, 20)
-        self.platform3 = Platform(1900, SCREEN_HEIGHT - 100, 150, 20)
-        self.platform4 = Platform(2700, SCREEN_HEIGHT - 150, 200, 20)
-        self.platform5 = Platform(3500, SCREEN_HEIGHT - 100, 150, 20)
+        # Create a list of platforms
+        self.platforms = [
+            Platform(100, SCREEN_HEIGHT - 100, 150, 20),
+            Platform(300, SCREEN_HEIGHT - 150, 200, 20),
+            Platform(500, SCREEN_HEIGHT - 100, 150, 20),
+            Platform(700, SCREEN_HEIGHT - 150, 200, 20),
+            Platform(900, SCREEN_HEIGHT - 100, 150, 20),
+            Platform(1100, SCREEN_HEIGHT - 150, 200, 20),
+            Platform(1300, SCREEN_HEIGHT - 100, 150, 20),
+            Platform(1500, SCREEN_HEIGHT - 150, 200, 2)     
+        ]
 
-       # Group for all sprites
+        # Group for all sprites
         self.all_sprites = pygame.sprite.Group()
         self.all_sprites.add(self.player)
         # Add all zombies to the sprite group
         for zombie in self.zombies:
             self.all_sprites.add(zombie)
-        self.all_sprites.add(self.platform1)
-        self.all_sprites.add(self.platform2)
-        self.all_sprites.add(self.platform3)
-        self.all_sprites.add(self.platform4)
-        self.all_sprites.add(self.platform5)
+        # Add all platforms to the sprite group
+        for platform in self.platforms:
+            self.all_sprites.add(platform)
 
         self.backgrounds = [background_image.copy(), background_image.copy()]
-        self.background_x = [0, SCREEN_WIDTH + 200]  # Positions of the two backgrounds
+        self.background_x = [0, SCREEN_WIDTH]  # Positions of the two backgrounds
 
     def run(self):
         while self.running:
@@ -212,9 +242,9 @@ class Game:
         blurred_surface = pygame.surfarray.make_surface(np.transpose(blurred_array, (1, 0, 2)))
         self.screen.blit(blurred_surface, (0, 0))
 
-         # Render the game title
+        # Render the game title
         title_font = pygame.font.Font(None, 74)  # You can adjust the size and font
-        title = title_font.render("GTA 6", True, WHITE)
+        title = title_font.render("URBAN ZOMBIE WARRIOR", True, WHITE)
         title_rect = title.get_rect(center=(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2 - 50))  # Adjust position as needed
         self.screen.blit(title, title_rect)
 
@@ -238,7 +268,6 @@ class Game:
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_RETURN:  # Press Enter to start the game
                         self.show_menu = False
-       
 
     def events(self):
         for event in pygame.event.get():
@@ -279,14 +308,16 @@ class Game:
         if player_died:
             self.display_death_message()
             self.running = False  # End the game when the player dies
-
-        # Check for collision with platforms
-        for platform in [self.platform1, self.platform2, self.platform3, self.platform4, self.platform5]:
+            
+        # Check for collision with platforms   
+        for platform in self.platforms:
             if self.player.rect.colliderect(platform.rect):
                 if self.player.velocity.y > 0 and self.player.rect.bottom <= platform.rect.bottom:
                     self.player.velocity.y = 0
                     self.player.on_ground = True
                     self.player.rect.bottom = platform.rect.top
+        
+        
 
         # Determine if player needs to scroll
         # If the player has reached certain bounds near the edges of the screen
@@ -313,7 +344,7 @@ class Game:
             self.background_x[i] -= scroll_speed  # Move background opposite to player
 
             # Move platforms with the background
-            for platform in [self.platform1, self.platform2, self.platform3, self.platform4, self.platform5]:
+            for platform in self.platforms:
                 platform.rect.x -= scroll_speed
 
             # Reset the background position when it goes off screen
