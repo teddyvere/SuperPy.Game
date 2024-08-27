@@ -9,15 +9,6 @@
         "documentation": {}
     },
     {
-        "label": "pygame",
-        "kind": 6,
-        "isExtraImport": true,
-        "importPath": "pygame",
-        "description": "pygame",
-        "detail": "pygame",
-        "documentation": {}
-    },
-    {
         "label": "sys",
         "kind": 6,
         "isExtraImport": true,
@@ -36,147 +27,127 @@
         "documentation": {}
     },
     {
-        "label": "scipy.ndimage",
+        "label": "pygame",
         "kind": 6,
         "isExtraImport": true,
-        "importPath": "scipy.ndimage",
-        "description": "scipy.ndimage",
-        "detail": "scipy.ndimage",
+        "importPath": "pygame",
+        "description": "pygame",
+        "detail": "pygame",
         "documentation": {}
     },
     {
-        "label": "Score",
+        "label": "scipy",
         "kind": 6,
-        "importPath": "main",
-        "description": "main",
-        "peekOfCode": "class Score(pygame.sprite.Sprite):\n    def __init__(self, x, y):\n        super().__init__()\n        self.score = 0\n        self.font = pygame.font.SysFont(None, 55)  # Moved the font initialization here\n        self.image = self.font.render(f\"Score: {self.score}\", True, WHITE)\n        self.rect = self.image.get_rect()\n        self.rect.topleft = (x, y)\n    def increase_score(self, amount):\n        self.score += amount",
-        "detail": "main",
+        "isExtraImport": true,
+        "importPath": "scipy",
+        "description": "scipy",
+        "detail": "scipy",
         "documentation": {}
     },
     {
-        "label": "Player",
-        "kind": 6,
-        "importPath": "main",
-        "description": "main",
-        "peekOfCode": "class Player(pygame.sprite.Sprite):\n    def __init__(self, x, y):\n        super().__init__()\n        # Load movement images\n        self.jump_images = [pygame.transform.scale(pygame.image.load(f'animation/player/mario_jump{i}.png'),(40,64)) for i in range(1) ]\n        self.images = [pygame.transform.scale(pygame.image.load(f'animation/player/mario_run{i}.png'),(40,64)) for i in range(4)]\n        self.index = 0\n        self.jump_index = 0\n        self.image = self.images[self.index]\n        self.rect = self.image.get_rect()",
-        "detail": "main",
+        "label": "__init__",
+        "importPath": "Game",
+        "description": "Game",
+        "isExtraImport": true,
+        "detail": "Game",
         "documentation": {}
     },
     {
-        "label": "Zombie",
-        "kind": 6,
-        "importPath": "main",
-        "description": "main",
-        "peekOfCode": "class Zombie(pygame.sprite.Sprite):\n    def __init__(self, x, y):\n        super().__init__()\n        self.images = [pygame.transform.scale(pygame.image.load(f'animation/zombie/zombie_walk{i}.png'),(64,64)) for i in range(2)]\n        self.index = 0\n        self.image = self.images[self.index]\n        self.rect = self.image.get_rect()\n        self.rect.topleft = (x, y)\n        self.velocity = 2.5  # Speed of the zombie\n        self.move_direction = 1",
-        "detail": "main",
-        "documentation": {}
-    },
-    {
-        "label": "Platform",
-        "kind": 6,
-        "importPath": "main",
-        "description": "main",
-        "peekOfCode": "class Platform(pygame.sprite.Sprite):\n    def __init__(self, x, y, width, height):\n        super().__init__()\n        self.image = pygame.Surface((width, height))\n        self.image.fill((128, 128, 128))  # Fill with gray color\n        # Draw black border\n        pygame.draw.rect(self.image, BLACK, self.image.get_rect(), 3)  # 3 pixels for the border width\n        self.rect = self.image.get_rect()\n        self.rect.topleft = (x, y)\nclass Coin(pygame.sprite.Sprite):",
-        "detail": "main",
-        "documentation": {}
-    },
-    {
-        "label": "Coin",
-        "kind": 6,
-        "importPath": "main",
-        "description": "main",
-        "peekOfCode": "class Coin(pygame.sprite.Sprite):\n    def __init__(self, x, y):\n        super().__init__()\n        self.images = [pygame.transform.scale(pygame.image.load(f'animation/goldCoin/goldCoin{i}.png'),(32,32)) for i in range(8)]\n        self.index = 0\n        self.image = self.images[self.index]\n        self.rect = self.image.get_rect()\n        self.rect.topleft = (x, y)\n        self.collected = False  # Flag to check if the coin has been collected\n         # Animation properties",
-        "detail": "main",
+        "label": "Game",
+        "importPath": "Game.Play",
+        "description": "Game.Play",
+        "isExtraImport": true,
+        "detail": "Game.Play",
         "documentation": {}
     },
     {
         "label": "Game",
         "kind": 6,
-        "importPath": "main",
-        "description": "main",
+        "importPath": "Game.Play",
+        "description": "Game.Play",
         "peekOfCode": "class Game:\n    def __init__(self):\n        self.screen = screen\n        self.clock = pygame.time.Clock()\n        self.running = True\n        self.background_offset = 0\n        self.show_menu = True  # Flag to show the menu\n        self.score = Score(10,10)\n        self.coins_collected = 0\n        # Create player object",
-        "detail": "main",
-        "documentation": {}
-    },
-    {
-        "label": "FPS",
-        "kind": 5,
-        "importPath": "main",
-        "description": "main",
-        "peekOfCode": "FPS = 60\nBACKGROUND_WIDTH = SCREEN_WIDTH\n# Colors\nWHITE = (255, 255, 255)\nBLACK = (0, 0, 0)\nRED = (255, 0, 0)\n# Initialize screen\nscreen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))\npygame.display.set_caption(\"The Adventures of Py.Man\")\n# Load assets",
-        "detail": "main",
-        "documentation": {}
-    },
-    {
-        "label": "BACKGROUND_WIDTH",
-        "kind": 5,
-        "importPath": "main",
-        "description": "main",
-        "peekOfCode": "BACKGROUND_WIDTH = SCREEN_WIDTH\n# Colors\nWHITE = (255, 255, 255)\nBLACK = (0, 0, 0)\nRED = (255, 0, 0)\n# Initialize screen\nscreen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))\npygame.display.set_caption(\"The Adventures of Py.Man\")\n# Load assets\nog_background_image = pygame.image.load('images/background.png')",
-        "detail": "main",
-        "documentation": {}
-    },
-    {
-        "label": "WHITE",
-        "kind": 5,
-        "importPath": "main",
-        "description": "main",
-        "peekOfCode": "WHITE = (255, 255, 255)\nBLACK = (0, 0, 0)\nRED = (255, 0, 0)\n# Initialize screen\nscreen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))\npygame.display.set_caption(\"The Adventures of Py.Man\")\n# Load assets\nog_background_image = pygame.image.load('images/background.png')\nbackground_image = pygame.transform.scale(og_background_image, (SCREEN_WIDTH, SCREEN_HEIGHT))\n# Fonts",
-        "detail": "main",
-        "documentation": {}
-    },
-    {
-        "label": "BLACK",
-        "kind": 5,
-        "importPath": "main",
-        "description": "main",
-        "peekOfCode": "BLACK = (0, 0, 0)\nRED = (255, 0, 0)\n# Initialize screen\nscreen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))\npygame.display.set_caption(\"The Adventures of Py.Man\")\n# Load assets\nog_background_image = pygame.image.load('images/background.png')\nbackground_image = pygame.transform.scale(og_background_image, (SCREEN_WIDTH, SCREEN_HEIGHT))\n# Fonts\nfont = pygame.font.SysFont(None, 55)",
-        "detail": "main",
-        "documentation": {}
-    },
-    {
-        "label": "RED",
-        "kind": 5,
-        "importPath": "main",
-        "description": "main",
-        "peekOfCode": "RED = (255, 0, 0)\n# Initialize screen\nscreen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))\npygame.display.set_caption(\"The Adventures of Py.Man\")\n# Load assets\nog_background_image = pygame.image.load('images/background.png')\nbackground_image = pygame.transform.scale(og_background_image, (SCREEN_WIDTH, SCREEN_HEIGHT))\n# Fonts\nfont = pygame.font.SysFont(None, 55)\nclass Score(pygame.sprite.Sprite):",
-        "detail": "main",
+        "detail": "Game.Play",
         "documentation": {}
     },
     {
         "label": "screen",
         "kind": 5,
-        "importPath": "main",
-        "description": "main",
-        "peekOfCode": "screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))\npygame.display.set_caption(\"The Adventures of Py.Man\")\n# Load assets\nog_background_image = pygame.image.load('images/background.png')\nbackground_image = pygame.transform.scale(og_background_image, (SCREEN_WIDTH, SCREEN_HEIGHT))\n# Fonts\nfont = pygame.font.SysFont(None, 55)\nclass Score(pygame.sprite.Sprite):\n    def __init__(self, x, y):\n        super().__init__()",
-        "detail": "main",
+        "importPath": "Game.Play",
+        "description": "Game.Play",
+        "peekOfCode": "screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))\npygame.display.set_caption(\"The Adventures of Py.Man\")\nog_background_image = pygame.image.load('Game/static/images/background.png')\nbackground_image = pygame.transform.scale(og_background_image, (SCREEN_WIDTH, SCREEN_HEIGHT))\nfont = pygame.font.SysFont(None, 55)\nclass Game:\n    def __init__(self):\n        self.screen = screen\n        self.clock = pygame.time.Clock()\n        self.running = True",
+        "detail": "Game.Play",
         "documentation": {}
     },
     {
         "label": "og_background_image",
         "kind": 5,
-        "importPath": "main",
-        "description": "main",
-        "peekOfCode": "og_background_image = pygame.image.load('images/background.png')\nbackground_image = pygame.transform.scale(og_background_image, (SCREEN_WIDTH, SCREEN_HEIGHT))\n# Fonts\nfont = pygame.font.SysFont(None, 55)\nclass Score(pygame.sprite.Sprite):\n    def __init__(self, x, y):\n        super().__init__()\n        self.score = 0\n        self.font = pygame.font.SysFont(None, 55)  # Moved the font initialization here\n        self.image = self.font.render(f\"Score: {self.score}\", True, WHITE)",
-        "detail": "main",
+        "importPath": "Game.Play",
+        "description": "Game.Play",
+        "peekOfCode": "og_background_image = pygame.image.load('Game/static/images/background.png')\nbackground_image = pygame.transform.scale(og_background_image, (SCREEN_WIDTH, SCREEN_HEIGHT))\nfont = pygame.font.SysFont(None, 55)\nclass Game:\n    def __init__(self):\n        self.screen = screen\n        self.clock = pygame.time.Clock()\n        self.running = True\n        self.background_offset = 0\n        self.show_menu = True  # Flag to show the menu",
+        "detail": "Game.Play",
         "documentation": {}
     },
     {
         "label": "background_image",
         "kind": 5,
-        "importPath": "main",
-        "description": "main",
-        "peekOfCode": "background_image = pygame.transform.scale(og_background_image, (SCREEN_WIDTH, SCREEN_HEIGHT))\n# Fonts\nfont = pygame.font.SysFont(None, 55)\nclass Score(pygame.sprite.Sprite):\n    def __init__(self, x, y):\n        super().__init__()\n        self.score = 0\n        self.font = pygame.font.SysFont(None, 55)  # Moved the font initialization here\n        self.image = self.font.render(f\"Score: {self.score}\", True, WHITE)\n        self.rect = self.image.get_rect()",
-        "detail": "main",
+        "importPath": "Game.Play",
+        "description": "Game.Play",
+        "peekOfCode": "background_image = pygame.transform.scale(og_background_image, (SCREEN_WIDTH, SCREEN_HEIGHT))\nfont = pygame.font.SysFont(None, 55)\nclass Game:\n    def __init__(self):\n        self.screen = screen\n        self.clock = pygame.time.Clock()\n        self.running = True\n        self.background_offset = 0\n        self.show_menu = True  # Flag to show the menu\n        self.score = Score(10,10)",
+        "detail": "Game.Play",
         "documentation": {}
     },
     {
         "label": "font",
         "kind": 5,
-        "importPath": "main",
-        "description": "main",
-        "peekOfCode": "font = pygame.font.SysFont(None, 55)\nclass Score(pygame.sprite.Sprite):\n    def __init__(self, x, y):\n        super().__init__()\n        self.score = 0\n        self.font = pygame.font.SysFont(None, 55)  # Moved the font initialization here\n        self.image = self.font.render(f\"Score: {self.score}\", True, WHITE)\n        self.rect = self.image.get_rect()\n        self.rect.topleft = (x, y)\n    def increase_score(self, amount):",
-        "detail": "main",
+        "importPath": "Game.Play",
+        "description": "Game.Play",
+        "peekOfCode": "font = pygame.font.SysFont(None, 55)\nclass Game:\n    def __init__(self):\n        self.screen = screen\n        self.clock = pygame.time.Clock()\n        self.running = True\n        self.background_offset = 0\n        self.show_menu = True  # Flag to show the menu\n        self.score = Score(10,10)\n        self.coins_collected = 0",
+        "detail": "Game.Play",
+        "documentation": {}
+    },
+    {
+        "label": "Score",
+        "kind": 6,
+        "importPath": "Game.Sprites",
+        "description": "Game.Sprites",
+        "peekOfCode": "class Score(pygame.sprite.Sprite):\n    def __init__(self, x, y):\n        super().__init__()\n        self.score = 0\n        self.font = pygame.font.SysFont(None, 55)  # Moved the font initialization here\n        self.image = self.font.render(f\"Score: {self.score}\", True, WHITE)\n        self.rect = self.image.get_rect()\n        self.rect.topleft = (x, y)\n    def increase_score(self, amount):\n        self.score += amount",
+        "detail": "Game.Sprites",
+        "documentation": {}
+    },
+    {
+        "label": "Player",
+        "kind": 6,
+        "importPath": "Game.Sprites",
+        "description": "Game.Sprites",
+        "peekOfCode": "class Player(pygame.sprite.Sprite):\n    def __init__(self, x, y):\n        super().__init__()\n        # Load movement images\n        self.jump_images = [pygame.transform.scale(pygame.image.load(f'Game/static/animation/player/mario_jump{i}.png'),(40,64)) for i in range(1) ]\n        self.images = [pygame.transform.scale(pygame.image.load(f'Game/static/animation/player/mario_run{i}.png'),(40,64)) for i in range(4)]\n        self.index = 0\n        self.jump_index = 0\n        self.image = self.images[self.index]\n        self.rect = self.image.get_rect()",
+        "detail": "Game.Sprites",
+        "documentation": {}
+    },
+    {
+        "label": "Zombie",
+        "kind": 6,
+        "importPath": "Game.Sprites",
+        "description": "Game.Sprites",
+        "peekOfCode": "class Zombie(pygame.sprite.Sprite):\n    def __init__(self, x, y):\n        super().__init__()\n        self.images = [pygame.transform.scale(pygame.image.load(f'Game/static/animation/zombie/zombie_walk{i}.png'),(64,64)) for i in range(2)]\n        self.index = 0\n        self.image = self.images[self.index]\n        self.rect = self.image.get_rect()\n        self.rect.topleft = (x, y)\n        self.velocity = 2.5  # Speed of the zombie\n        self.move_direction = 1",
+        "detail": "Game.Sprites",
+        "documentation": {}
+    },
+    {
+        "label": "Platform",
+        "kind": 6,
+        "importPath": "Game.Sprites",
+        "description": "Game.Sprites",
+        "peekOfCode": "class Platform(pygame.sprite.Sprite):\n    def __init__(self, x, y, width, height):\n        super().__init__()\n        self.image = pygame.Surface((width, height))\n        self.image.fill((128, 128, 128))  # Fill with gray color\n        # Draw black border\n        pygame.draw.rect(self.image, BLACK, self.image.get_rect(), 3)  # 3 pixels for the border width\n        self.rect = self.image.get_rect()\n        self.rect.topleft = (x, y)\nclass Coin(pygame.sprite.Sprite):",
+        "detail": "Game.Sprites",
+        "documentation": {}
+    },
+    {
+        "label": "Coin",
+        "kind": 6,
+        "importPath": "Game.Sprites",
+        "description": "Game.Sprites",
+        "peekOfCode": "class Coin(pygame.sprite.Sprite):\n    def __init__(self, x, y):\n        super().__init__()\n        self.images = [pygame.transform.scale(pygame.image.load(f'Game/static/animation/goldCoin/goldCoin{i}.png'),(32,32)) for i in range(8)]\n        self.index = 0\n        self.image = self.images[self.index]\n        self.rect = self.image.get_rect()\n        self.rect.topleft = (x, y)\n        self.collected = False  # Flag to check if the coin has been collected\n         # Animation properties",
+        "detail": "Game.Sprites",
         "documentation": {}
     }
 ]
