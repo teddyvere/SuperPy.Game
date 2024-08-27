@@ -189,20 +189,29 @@ class Game:
         # Create a list of zombies
         self.zombies = [
             Zombie(400, SCREEN_HEIGHT - 70),
+            Zombie(500, SCREEN_HEIGHT - 70),
+            Zombie(550, SCREEN_HEIGHT - 70),
+            Zombie(575, SCREEN_HEIGHT - 70),
             Zombie(600, SCREEN_HEIGHT - 70),
-            Zombie(800, SCREEN_HEIGHT - 70)
+            Zombie(800, SCREEN_HEIGHT - 70),
+            Zombie(1000, SCREEN_HEIGHT - 70),
+            Zombie(1200, SCREEN_HEIGHT - 70),
+            Zombie(1400, SCREEN_HEIGHT - 70),
+            Zombie(1600, SCREEN_HEIGHT - 70),
+            Zombie(1800, SCREEN_HEIGHT - 70)
         ]
         
         # Create a list of platforms
         self.platforms = [
             Platform(100, SCREEN_HEIGHT - 100, 150, 20),
-            Platform(300, SCREEN_HEIGHT - 150, 200, 20),
             Platform(500, SCREEN_HEIGHT - 100, 150, 20),
-            Platform(700, SCREEN_HEIGHT - 150, 200, 20),
             Platform(900, SCREEN_HEIGHT - 100, 150, 20),
-            Platform(1100, SCREEN_HEIGHT - 150, 200, 20),
             Platform(1300, SCREEN_HEIGHT - 100, 150, 20),
-            Platform(1500, SCREEN_HEIGHT - 150, 200, 2)     
+            Platform(1700, SCREEN_HEIGHT - 100, 150, 20),
+            Platform(1900, SCREEN_HEIGHT - 150, 200, 20),
+            Platform(2100, SCREEN_HEIGHT - 200, 150, 20),
+            Platform(2300, SCREEN_HEIGHT - 250, 150, 20),
+            Platform(2500, SCREEN_HEIGHT - 300, 150, 20),
         ]
 
         # Group for all sprites
