@@ -1,8 +1,8 @@
+import random
 import pygame
 import sys
 import numpy as np
 import scipy.ndimage
-
 # Initialize Pygame
 pygame.init()
 
@@ -147,20 +147,20 @@ class Zombie(pygame.sprite.Sprite):
         self.animate()
         
     def animate(self):
-        current_time = pygame.time.get_ticks()
-        # Check if it's time to update the frame
-        if current_time - self.last_update > self.animation_speed:
-            self.last_update = current_time
-            
-        # Update the frame index regardless of velocity to constantly animate zombie walk
-            self.index = (self.index + 1) % len(self.images)
-            self.image = self.images[self.index]    
-        
-        # Flip the image based on the direction of movement
-        if self.move_direction == -1:  # Moving left
-            self.image = pygame.transform.flip(self.images[self.index], True, False)  # Flip horizontally
-        else:  # Moving right
-            self.image = self.images[self.index]  # Use the original image
+            current_time = pygame.time.get_ticks()
+            # Check if it's time to update the frame
+            if current_time - self.last_update > self.animation_speed:
+                self.last_update = current_time
+
+            # Update the frame index regardless of velocity to constantly animate zombie walk
+                self.index = (self.index + 1) % len(self.images)
+                self.image = self.images[self.index]    
+
+            # Flip the image based on the direction of movement
+            if self.move_direction == -1:  # Moving left
+                self.image = pygame.transform.flip(self.images[self.index], True, False)  # Flip horizontally
+            else:  # Moving right
+                self.image = self.images[self.index]  # Use the original image
                             
             
             
@@ -174,6 +174,33 @@ class Platform(pygame.sprite.Sprite):
         pygame.draw.rect(self.image, BLACK, self.image.get_rect(), 3)  # 3 pixels for the border width
         self.rect = self.image.get_rect()
         self.rect.topleft = (x, y)
+        
+class Coin(pygame.sprite.Sprite):
+    def __init__(self, x, y):
+        super().__init__()
+        self.images = [pygame.transform.scale(pygame.image.load(f'animation/goldCoin/goldCoin{i}.png'),(32,32)) for i in range(8)]
+        self.index = 0
+        self.image = self.images[self.index]
+        self.rect = self.image.get_rect()
+        self.rect.topleft = (x, y)
+        self.collected = False  # Flag to check if the coin has been collected
+         # Animation properties
+        self.animation_timer = 0  # Timer for frame updating
+        self.animation_speed = 150  # Milliseconds for each frame
+        self.last_update = pygame.time.get_ticks()  # Last update time
+        
+    def animate(self):
+        current_time = pygame.time.get_ticks()
+        # Check if it's time to update the frame
+        if current_time - self.last_update > self.animation_speed:
+            self.last_update = current_time
+            
+        # Update the frame index regardless of velocity to constantly animate zombie walk
+            self.index = (self.index + 1) % len(self.images)
+            self.image = self.images[self.index]    
+        
+                            
+        
 
 class Game:
     def __init__(self):
@@ -182,6 +209,8 @@ class Game:
         self.running = True
         self.background_offset = 0
         self.show_menu = True  # Flag to show the menu
+        self.score = 0
+        self.coins_collected = 0
 
         # Create player object
         self.player = Player(100, SCREEN_HEIGHT - 70)
@@ -213,6 +242,13 @@ class Game:
             Platform(2300, SCREEN_HEIGHT - 250, 150, 20),
             Platform(2500, SCREEN_HEIGHT - 300, 150, 20),
         ]
+        
+        # Create a list of coins
+        self.coins = [
+            Coin(200, SCREEN_HEIGHT - 150),
+            Coin(300, SCREEN_HEIGHT - 200),
+            Coin(500, SCREEN_HEIGHT - 50),
+        ]
 
         # Group for all sprites
         self.all_sprites = pygame.sprite.Group()
@@ -223,6 +259,9 @@ class Game:
         # Add all platforms to the sprite group
         for platform in self.platforms:
             self.all_sprites.add(platform)
+        # Add all coins to the sprite group
+        for coin in self.coins:
+            self.all_sprites.add(coin)
 
         self.backgrounds = [background_image.copy(), background_image.copy()]
         self.background_x = [0, SCREEN_WIDTH]  # Positions of the two backgrounds
@@ -309,6 +348,17 @@ class Game:
             self.all_sprites.remove(zombie)
             self.zombies.remove(zombie)
             zombie.kill()
+        
+        
+
+        #
+            
+        # Adds new zombies if score is high enough
+        if self.coins_collected > 3:
+            self.zombies.append(Zombie(random.randint(100, 500), 10))
+            self.coins_collected -= 3  # Decrease the score by 100 when new zombies are added
+
+        
 
         # Only update player position if they are still alive
         if not player_died:
@@ -325,6 +375,19 @@ class Game:
                     self.player.velocity.y = 0
                     self.player.on_ground = True
                     self.player.rect.bottom = platform.rect.top
+        
+        # CHeck for collision with coins
+        for coin in self.coins:
+            coin.animate()
+            if pygame.sprite.collide_rect(self.player, coin):
+                coin.kill()  # Remove the coin when the player collects it
+                self.coins.remove(coin) # Removes coins from listd
+                self.coins_collected += 1  # Increase the coins collected
+
+        # Check if all coins have been collected
+        if len(self.coins) == 0:
+            self.display_win_message()
+            self.running = False  # End the game when all coins have been collected
         
         
 
@@ -355,13 +418,18 @@ class Game:
             # Move platforms with the background
             for platform in self.platforms:
                 platform.rect.x -= scroll_speed
+                
+            # Move coins with the background
+            for coin in self.coins:
+                coin.rect.x -= scroll_speed
+
 
             # Reset the background position when it goes off screen
             if self.background_x[i] < -BACKGROUND_WIDTH:
                 self.background_x[i] += BACKGROUND_WIDTH * 2
             elif self.background_x[i] > BACKGROUND_WIDTH:
                 self.background_x[i] -= BACKGROUND_WIDTH * 2
-
+        
 
 
 
@@ -371,6 +439,7 @@ class Game:
             self.screen.blit(background_image, (bg, 0))
         self.all_sprites.draw(self.screen)
         pygame.display.flip()
+        
 
     def display_death_message(self):
         # Capture the screen
@@ -384,13 +453,31 @@ class Game:
         blurred_surface = pygame.surfarray.make_surface(np.transpose(blurred_array, (1, 0, 2)))
         self.screen.blit(blurred_surface, (0, 0))
 
-        # Render death message
-        death_message = font.render("WASTED", True, RED)
+        # Render death messaged
+        death_message = font.render(f"WASTED Score:{self.score}", True, RED)
         death_rect = death_message.get_rect(center=(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2))
         self.screen.blit(death_message, death_rect)
         pygame.display.flip()
 
         pygame.time.wait(5000)  # Display the message for 2 seconds
+        
+    def display_win_message(self):
+        # Capture the screen
+        surface_array = pygame.surfarray.array3d(self.screen)
+        surface_array = np.transpose(surface_array, (1, 0, 2))
+
+        # Apply a blur effect
+        blurred_array = scipy.ndimage.gaussian_filter(surface_array, sigma=(5, 5, 0))
+
+        # Convert back to pygame surface and draw
+        blurred_surface = pygame.surfarray.make_surface(np.transpose(blurred_array, (1, 0, 2)))
+        self.screen.blit(blurred_surface, (0, 0))
+
+        # Render win message
+        win_message = font.render("YOU WIN", True, WHITE)
+        win_rect = win_message.get_rect(center=(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2))
+        self.screen.blit(win_message)
+        
 
 if __name__ == "__main__":
     game = Game()

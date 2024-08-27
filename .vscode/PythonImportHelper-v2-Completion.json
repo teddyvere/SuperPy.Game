@@ -1,5 +1,14 @@
 [
     {
+        "label": "random",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "random",
+        "description": "random",
+        "detail": "random",
+        "documentation": {}
+    },
+    {
         "label": "pygame",
         "kind": 6,
         "isExtraImport": true,
@@ -58,7 +67,16 @@
         "kind": 6,
         "importPath": "main",
         "description": "main",
-        "peekOfCode": "class Platform(pygame.sprite.Sprite):\n    def __init__(self, x, y, width, height):\n        super().__init__()\n        self.image = pygame.Surface((width, height))\n        self.image.fill((128, 128, 128))  # Fill with gray color\n        # Draw black border\n        pygame.draw.rect(self.image, BLACK, self.image.get_rect(), 3)  # 3 pixels for the border width\n        self.rect = self.image.get_rect()\n        self.rect.topleft = (x, y)\nclass Game:",
+        "peekOfCode": "class Platform(pygame.sprite.Sprite):\n    def __init__(self, x, y, width, height):\n        super().__init__()\n        self.image = pygame.Surface((width, height))\n        self.image.fill((128, 128, 128))  # Fill with gray color\n        # Draw black border\n        pygame.draw.rect(self.image, BLACK, self.image.get_rect(), 3)  # 3 pixels for the border width\n        self.rect = self.image.get_rect()\n        self.rect.topleft = (x, y)\nclass Coin(pygame.sprite.Sprite):",
+        "detail": "main",
+        "documentation": {}
+    },
+    {
+        "label": "Coin",
+        "kind": 6,
+        "importPath": "main",
+        "description": "main",
+        "peekOfCode": "class Coin(pygame.sprite.Sprite):\n    def __init__(self, x, y):\n        super().__init__()\n        self.images = [pygame.transform.scale(pygame.image.load(f'animation/goldCoin/goldCoin{i}.png'),(32,32)) for i in range(8)]\n        self.index = 0\n        self.image = self.images[self.index]\n        self.rect = self.image.get_rect()\n        self.rect.topleft = (x, y)\n        self.collected = False  # Flag to check if the coin has been collected\n         # Animation properties",
         "detail": "main",
         "documentation": {}
     },
@@ -67,7 +85,7 @@
         "kind": 6,
         "importPath": "main",
         "description": "main",
-        "peekOfCode": "class Game:\n    def __init__(self):\n        self.screen = screen\n        self.clock = pygame.time.Clock()\n        self.running = True\n        self.background_offset = 0\n        self.show_menu = True  # Flag to show the menu\n        # Create player object\n        self.player = Player(100, SCREEN_HEIGHT - 70)\n        # Create a list of zombies",
+        "peekOfCode": "class Game:\n    def __init__(self):\n        self.screen = screen\n        self.clock = pygame.time.Clock()\n        self.running = True\n        self.background_offset = 0\n        self.show_menu = True  # Flag to show the menu\n        self.score = 0\n        self.coins_collected = 0\n        # Create player object",
         "detail": "main",
         "documentation": {}
     },
