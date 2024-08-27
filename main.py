@@ -27,6 +27,19 @@ background_image = pygame.transform.scale(og_background_image, (SCREEN_WIDTH, SC
 # Fonts
 font = pygame.font.SysFont(None, 55)
 
+class Score(pygame.sprite.Sprite):
+    def __init__(self, x, y):
+        super().__init__()
+        self.score = 0
+        self.font = pygame.font.SysFont(None, 55)  # Moved the font initialization here
+        self.image = self.font.render(f"Score: {self.score}", True, WHITE)
+        self.rect = self.image.get_rect()
+        self.rect.topleft = (x, y)
+
+    def increase_score(self, amount):
+        self.score += amount
+        self.image = self.font.render(f"Score: {self.score}", True, WHITE)
+        
 class Player(pygame.sprite.Sprite):
     def __init__(self, x, y):
         super().__init__()
@@ -209,7 +222,7 @@ class Game:
         self.running = True
         self.background_offset = 0
         self.show_menu = True  # Flag to show the menu
-        self.score = 0
+        self.score = Score(10,10)
         self.coins_collected = 0
 
         # Create player object
@@ -248,10 +261,16 @@ class Game:
             Coin(200, SCREEN_HEIGHT - 150),
             Coin(300, SCREEN_HEIGHT - 200),
             Coin(500, SCREEN_HEIGHT - 50),
+            Coin(700, SCREEN_HEIGHT - 100),
+            Coin(900, SCREEN_HEIGHT - 150),
+            Coin(1100, SCREEN_HEIGHT - 200),
+            Coin(1300, SCREEN_HEIGHT - 50),
+            Coin(1500, SCREEN_HEIGHT - 100),
         ]
 
         # Group for all sprites
         self.all_sprites = pygame.sprite.Group()
+        self.all_sprites.add(self.score)
         self.all_sprites.add(self.player)
         # Add all zombies to the sprite group
         for zombie in self.zombies:
@@ -338,6 +357,7 @@ class Game:
                 if (self.player.rect.bottom <= zombie.rect.top + 10 and self.player.velocity.y > 0):
                     # Mark zombie for removal if the player lands on it
                     zombies_to_remove.append(zombie)
+                    self.score.increase_score(100)  # Increase the score by 100
                     self.player.velocity.y = self.player.jump_speed  # Bounce the player up
                 else:
                     # Player collided with the side of the zombie
@@ -383,6 +403,7 @@ class Game:
                 coin.kill()  # Remove the coin when the player collects it
                 self.coins.remove(coin) # Removes coins from listd
                 self.coins_collected += 1  # Increase the coins collected
+                self.score.increase_score(100)  # Increase the score by 10 when a coin is
 
         # Check if all coins have been collected
         if len(self.coins) == 0:
@@ -454,7 +475,7 @@ class Game:
         self.screen.blit(blurred_surface, (0, 0))
 
         # Render death messaged
-        death_message = font.render(f"WASTED Score:{self.score}", True, RED)
+        death_message = font.render(f"WASTED Score:{self.score.score}", True, RED)
         death_rect = death_message.get_rect(center=(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2))
         self.screen.blit(death_message, death_rect)
         pygame.display.flip()
@@ -474,9 +495,12 @@ class Game:
         self.screen.blit(blurred_surface, (0, 0))
 
         # Render win message
-        win_message = font.render("YOU WIN", True, WHITE)
+        win_message = font.render(f"YOU WIN Score:{self.score.score}", True, WHITE)
         win_rect = win_message.get_rect(center=(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2))
-        self.screen.blit(win_message)
+        self.screen.blit(win_message, win_rect)
+        pygame.display.flip()
+        
+        pygame.time.wait(5000)  # Display the message for 2 seconds
         
 
 if __name__ == "__main__":
