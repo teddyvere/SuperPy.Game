@@ -1,6 +1,6 @@
 import pygame
 
-from . import SCREEN_HEIGHT, WHITE, BLACK
+from . Config import SCREEN_HEIGHT, WHITE, BLACK
 
 
 class Score(pygame.sprite.Sprite):

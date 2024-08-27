@@ -1,6 +1,4 @@
-import pygame
-from Game import __init__
-from Game.Play import Game
+from Game import Game
 
 
 

@@ -1,32 +1,5 @@
 [
     {
-        "label": "random",
-        "kind": 6,
-        "isExtraImport": true,
-        "importPath": "random",
-        "description": "random",
-        "detail": "random",
-        "documentation": {}
-    },
-    {
-        "label": "sys",
-        "kind": 6,
-        "isExtraImport": true,
-        "importPath": "sys",
-        "description": "sys",
-        "detail": "sys",
-        "documentation": {}
-    },
-    {
-        "label": "numpy",
-        "kind": 6,
-        "isExtraImport": true,
-        "importPath": "numpy",
-        "description": "numpy",
-        "detail": "numpy",
-        "documentation": {}
-    },
-    {
         "label": "pygame",
         "kind": 6,
         "isExtraImport": true,
@@ -36,16 +9,7 @@
         "documentation": {}
     },
     {
-        "label": "scipy",
-        "kind": 6,
-        "isExtraImport": true,
-        "importPath": "scipy",
-        "description": "scipy",
-        "detail": "scipy",
-        "documentation": {}
-    },
-    {
-        "label": "__init__",
+        "label": "Game",
         "importPath": "Game",
         "description": "Game",
         "isExtraImport": true,
@@ -53,56 +17,75 @@
         "documentation": {}
     },
     {
-        "label": "Game",
-        "importPath": "Game.Play",
-        "description": "Game.Play",
-        "isExtraImport": true,
-        "detail": "Game.Play",
-        "documentation": {}
-    },
-    {
-        "label": "Game",
-        "kind": 6,
-        "importPath": "Game.Play",
-        "description": "Game.Play",
-        "peekOfCode": "class Game:\n    def __init__(self):\n        self.screen = screen\n        self.clock = pygame.time.Clock()\n        self.running = True\n        self.background_offset = 0\n        self.show_menu = True  # Flag to show the menu\n        self.score = Score(10,10)\n        self.coins_collected = 0\n        # Create player object",
-        "detail": "Game.Play",
-        "documentation": {}
-    },
-    {
-        "label": "screen",
+        "label": "SCREEN_WIDTH",
         "kind": 5,
-        "importPath": "Game.Play",
-        "description": "Game.Play",
-        "peekOfCode": "screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))\npygame.display.set_caption(\"The Adventures of Py.Man\")\nog_background_image = pygame.image.load('Game/static/images/background.png')\nbackground_image = pygame.transform.scale(og_background_image, (SCREEN_WIDTH, SCREEN_HEIGHT))\nfont = pygame.font.SysFont(None, 55)\nclass Game:\n    def __init__(self):\n        self.screen = screen\n        self.clock = pygame.time.Clock()\n        self.running = True",
-        "detail": "Game.Play",
+        "importPath": "Game.Config",
+        "description": "Game.Config",
+        "peekOfCode": "SCREEN_WIDTH = 800\nSCREEN_HEIGHT = 600\nFPS = 60\nBACKGROUND_WIDTH = SCREEN_WIDTH\n# Colors\nWHITE = (255, 255, 255)\nBLACK = (0, 0, 0)\nRED = (255, 0, 0)\nGREEN = (0, 255, 0)",
+        "detail": "Game.Config",
         "documentation": {}
     },
     {
-        "label": "og_background_image",
+        "label": "SCREEN_HEIGHT",
         "kind": 5,
-        "importPath": "Game.Play",
-        "description": "Game.Play",
-        "peekOfCode": "og_background_image = pygame.image.load('Game/static/images/background.png')\nbackground_image = pygame.transform.scale(og_background_image, (SCREEN_WIDTH, SCREEN_HEIGHT))\nfont = pygame.font.SysFont(None, 55)\nclass Game:\n    def __init__(self):\n        self.screen = screen\n        self.clock = pygame.time.Clock()\n        self.running = True\n        self.background_offset = 0\n        self.show_menu = True  # Flag to show the menu",
-        "detail": "Game.Play",
+        "importPath": "Game.Config",
+        "description": "Game.Config",
+        "peekOfCode": "SCREEN_HEIGHT = 600\nFPS = 60\nBACKGROUND_WIDTH = SCREEN_WIDTH\n# Colors\nWHITE = (255, 255, 255)\nBLACK = (0, 0, 0)\nRED = (255, 0, 0)\nGREEN = (0, 255, 0)",
+        "detail": "Game.Config",
         "documentation": {}
     },
     {
-        "label": "background_image",
+        "label": "FPS",
         "kind": 5,
-        "importPath": "Game.Play",
-        "description": "Game.Play",
-        "peekOfCode": "background_image = pygame.transform.scale(og_background_image, (SCREEN_WIDTH, SCREEN_HEIGHT))\nfont = pygame.font.SysFont(None, 55)\nclass Game:\n    def __init__(self):\n        self.screen = screen\n        self.clock = pygame.time.Clock()\n        self.running = True\n        self.background_offset = 0\n        self.show_menu = True  # Flag to show the menu\n        self.score = Score(10,10)",
-        "detail": "Game.Play",
+        "importPath": "Game.Config",
+        "description": "Game.Config",
+        "peekOfCode": "FPS = 60\nBACKGROUND_WIDTH = SCREEN_WIDTH\n# Colors\nWHITE = (255, 255, 255)\nBLACK = (0, 0, 0)\nRED = (255, 0, 0)\nGREEN = (0, 255, 0)",
+        "detail": "Game.Config",
         "documentation": {}
     },
     {
-        "label": "font",
+        "label": "BACKGROUND_WIDTH",
         "kind": 5,
-        "importPath": "Game.Play",
-        "description": "Game.Play",
-        "peekOfCode": "font = pygame.font.SysFont(None, 55)\nclass Game:\n    def __init__(self):\n        self.screen = screen\n        self.clock = pygame.time.Clock()\n        self.running = True\n        self.background_offset = 0\n        self.show_menu = True  # Flag to show the menu\n        self.score = Score(10,10)\n        self.coins_collected = 0",
-        "detail": "Game.Play",
+        "importPath": "Game.Config",
+        "description": "Game.Config",
+        "peekOfCode": "BACKGROUND_WIDTH = SCREEN_WIDTH\n# Colors\nWHITE = (255, 255, 255)\nBLACK = (0, 0, 0)\nRED = (255, 0, 0)\nGREEN = (0, 255, 0)",
+        "detail": "Game.Config",
+        "documentation": {}
+    },
+    {
+        "label": "WHITE",
+        "kind": 5,
+        "importPath": "Game.Config",
+        "description": "Game.Config",
+        "peekOfCode": "WHITE = (255, 255, 255)\nBLACK = (0, 0, 0)\nRED = (255, 0, 0)\nGREEN = (0, 255, 0)",
+        "detail": "Game.Config",
+        "documentation": {}
+    },
+    {
+        "label": "BLACK",
+        "kind": 5,
+        "importPath": "Game.Config",
+        "description": "Game.Config",
+        "peekOfCode": "BLACK = (0, 0, 0)\nRED = (255, 0, 0)\nGREEN = (0, 255, 0)",
+        "detail": "Game.Config",
+        "documentation": {}
+    },
+    {
+        "label": "RED",
+        "kind": 5,
+        "importPath": "Game.Config",
+        "description": "Game.Config",
+        "peekOfCode": "RED = (255, 0, 0)\nGREEN = (0, 255, 0)",
+        "detail": "Game.Config",
+        "documentation": {}
+    },
+    {
+        "label": "GREEN",
+        "kind": 5,
+        "importPath": "Game.Config",
+        "description": "Game.Config",
+        "peekOfCode": "GREEN = (0, 255, 0)",
+        "detail": "Game.Config",
         "documentation": {}
     },
     {
