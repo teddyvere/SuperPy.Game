@@ -1,3 +1,4 @@
+import os
 import random
 import sys
 import numpy as np
@@ -13,6 +14,8 @@ pygame.display.set_caption("The Adventures of Py.Man")
 
 og_background_image = pygame.image.load('Game/static/images/background.png')
 background_image = pygame.transform.scale(og_background_image, (SCREEN_WIDTH, SCREEN_HEIGHT))
+highscore_file = "highscores.txt"  # File to store high scores
+
 
 font = pygame.font.SysFont(None, 55)
 
@@ -25,54 +28,20 @@ class Game:
         self.show_menu = True  # Flag to show the menu
         self.score = Score(10,10)
         self.coins_collected = 0
+        self.highscores = self.load_highscores()
+
 
         # Create player object
         self.player = Player(100, SCREEN_HEIGHT - 70)
         
-        # Create a list of zombies
-        self.zombies = [
-            Zombie(400, SCREEN_HEIGHT - 70),
-            Zombie(500, SCREEN_HEIGHT - 70),
-            Zombie(550, SCREEN_HEIGHT - 70),
-            Zombie(575, SCREEN_HEIGHT - 70),
-            Zombie(600, SCREEN_HEIGHT - 70),
-            Zombie(800, SCREEN_HEIGHT - 70),
-            Zombie(1000, SCREEN_HEIGHT - 70),
-            Zombie(1200, SCREEN_HEIGHT - 70),
-            Zombie(1400, SCREEN_HEIGHT - 70),
-            Zombie(1600, SCREEN_HEIGHT - 70),
-            Zombie(1800, SCREEN_HEIGHT - 70)
-        ]
+        # Create a list of random zombies
+        self.zombies = self.create_random_zombies()
         
         # Create a list of platforms
-        self.platforms = [
-            Platform(100, SCREEN_HEIGHT - 100, 150, 20),
-            Platform(500, SCREEN_HEIGHT - 100, 150, 20),
-            Platform(900, SCREEN_HEIGHT - 100, 150, 20),
-            Platform(1300, SCREEN_HEIGHT - 100, 150, 20),
-            Platform(1700, SCREEN_HEIGHT - 100, 150, 20),
-            Platform(1900, SCREEN_HEIGHT - 150, 200, 20),
-            Platform(2100, SCREEN_HEIGHT - 200, 150, 20),
-            Platform(2300, SCREEN_HEIGHT - 250, 150, 20),
-            Platform(2500, SCREEN_HEIGHT - 300, 150, 20),
-        ]
+        self.platforms = self.create_random_platforms()
         
         # Create a list of coins
-        self.coins = [
-            Coin(200, SCREEN_HEIGHT - 150),
-            Coin(300, SCREEN_HEIGHT - 200),
-            Coin(500, SCREEN_HEIGHT - 50),
-            Coin(700, SCREEN_HEIGHT - 100),
-            Coin(900, SCREEN_HEIGHT - 150),
-            Coin(1100, SCREEN_HEIGHT - 200),
-            Coin(1300, SCREEN_HEIGHT - 50),
-            Coin(1500, SCREEN_HEIGHT - 100),
-            Coin(1700, SCREEN_HEIGHT - 150),
-            Coin(1900, SCREEN_HEIGHT - 200),
-            Coin(2100, SCREEN_HEIGHT - 50),
-            Coin(2300, SCREEN_HEIGHT - 100),
-            Coin(2500, SCREEN_HEIGHT - 150),
-        ]
+        self.coins = self.create_random_coins()
 
         # Group for all sprites
         self.all_sprites = pygame.sprite.Group()
@@ -90,6 +59,94 @@ class Game:
 
         self.backgrounds = [background_image.copy(), background_image.copy()]
         self.background_x = [0, SCREEN_WIDTH]  # Positions of the two backgrounds
+    
+    def create_random_zombies(self):
+        num_zombies = random.randint(5, 15)  # Randomly decide the number of zombies between 5 and 15
+        zombies = []
+        for _ in range(num_zombies):
+            x_pos = random.randint(400, SCREEN_WIDTH * 2)  # Random x position within a range
+            zombie = Zombie(x_pos, SCREEN_HEIGHT - 70)
+            zombies.append(zombie)
+        return zombies
+    
+    def create_random_platforms(self):
+        num_platforms = random.randint(5, 10)  # Randomly decide the number of platforms
+        platforms = []
+        for _ in range(num_platforms):
+            x_pos = random.randint(100, SCREEN_WIDTH * 2)
+            y_pos = random.randint(SCREEN_HEIGHT - 250, SCREEN_HEIGHT - 80) 
+            width = random.randint(100, 200)  # Random platform width
+            platform = Platform(x_pos, y_pos, width, 20)
+            platforms.append(platform)
+        return platforms
+    
+    def create_random_coins(self):
+        num_coints = random.randint(10, 20)  # Randomly decide the number of
+        coins = []
+        for _ in range(num_coints):
+            x_pos = random.randint(400, SCREEN_WIDTH * 2)  # Random x position within a range
+            coin = Coin(x_pos, SCREEN_HEIGHT - 150)
+            coins.append(coin)
+        return coins
+    
+    def load_highscores(self):
+        if os.path.exists(highscore_file):
+            with open(highscore_file, "r") as f:
+                highscores = [line.strip().split(",") for line in f.readlines()]
+                highscores = [(name, int(score)) for name, score in highscores]
+        else:
+            highscores = []
+        return highscores
+
+    def save_highscores(self):
+        with open(highscore_file, "w") as f:
+            for name, score in self.highscores:
+                f.write(f"{name},{score}\n")
+
+    def check_for_highscore(self):
+        if len(self.highscores) < 10 or self.score.score > self.highscores[-1][1]:
+            return True
+        return False
+
+    def add_highscore(self):
+        if self.check_for_highscore():
+            self.display_highscore_input()
+
+    def display_highscore_input(self):
+        input_active = True
+        player_name = ""
+        
+        while input_active:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    self.running = False
+                    input_active = False
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_RETURN:
+                        input_active = False
+                    elif event.key == pygame.K_BACKSPACE:
+                        player_name = player_name[:-1]
+                    else:
+                        player_name += event.unicode
+            
+            # Display the input prompt
+            self.screen.fill(WHITE)
+            prompt = font.render("Enter your name:", True, GREEN)
+            prompt_rect = prompt.get_rect(center=(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2 - 50))
+            self.screen.blit(prompt, prompt_rect)
+            
+            name_surface = font.render(player_name, True, GREEN)
+            name_rect = name_surface.get_rect(center=(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2))
+            self.screen.blit(name_surface, name_rect)
+            
+            pygame.display.flip()
+
+        # Add the new high score and sort the list
+        self.highscores.append((player_name, self.score.score))
+        self.highscores.sort(key=lambda x: x[1], reverse=True)
+        self.highscores = self.highscores[:10]  # Keep only the top 10 scores
+        self.save_highscores()
+        
 
     def run(self):
         while self.running:
@@ -131,6 +188,16 @@ class Game:
 
         # Wait for user interaction
         self.wait_for_menu_input()
+    
+    def display_highscores(self):
+        highscore_font = pygame.font.Font(None, 36)
+        title = highscore_font.render("High Scores", True, WHITE)
+        self.screen.blit(title, (50, 50))
+
+        for i, (name, score) in enumerate(self.highscores):
+            score_text = f"{i+1}. {name} - {score}"
+            score_surface = highscore_font.render(score_text, True, WHITE)
+            self.screen.blit(score_surface, (50, 100 + i * 30))
 
     def wait_for_menu_input(self):
         while self.show_menu:
