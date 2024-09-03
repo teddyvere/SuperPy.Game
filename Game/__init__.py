@@ -73,8 +73,8 @@ class Game:
         num_platforms = random.randint(5, 10)  # Randomly decide the number of platforms
         platforms = []
         for _ in range(num_platforms):
-            x_pos = random.randint(100, SCREEN_WIDTH * 2)
-            y_pos = random.randint(SCREEN_HEIGHT - 250, SCREEN_HEIGHT - 80) 
+            x_pos = random.randint(100, SCREEN_WIDTH * 3)
+            y_pos = random.randint(SCREEN_HEIGHT -300, SCREEN_HEIGHT -100)  # Random y position within a range
             width = random.randint(100, 200)  # Random platform width
             platform = Platform(x_pos, y_pos, width, 20)
             platforms.append(platform)
@@ -84,8 +84,9 @@ class Game:
         num_coints = random.randint(10, 20)  # Randomly decide the number of
         coins = []
         for _ in range(num_coints):
-            x_pos = random.randint(400, SCREEN_WIDTH * 2)  # Random x position within a range
-            coin = Coin(x_pos, SCREEN_HEIGHT - 150)
+            x_pos = random.randint(200, SCREEN_WIDTH * 3)  # Random x position within a range
+            y_pos = random.randint(SCREEN_HEIGHT- 350, SCREEN_HEIGHT - 150)  # Random y position within a range
+            coin = Coin(x_pos, y_pos)
             coins.append(coin)
         return coins
     
