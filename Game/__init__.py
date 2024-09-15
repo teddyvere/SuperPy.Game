@@ -61,10 +61,10 @@ class Game:
         self.background_x = [0, SCREEN_WIDTH]  # Positions of the two backgrounds
     
     def create_random_zombies(self):
-        num_zombies = random.randint(5, 15)  # Randomly decide the number of zombies between 5 and 15
+        num_zombies = random.randint(5, 8)  # Randomly decide the number of zombies between 5 and 15
         zombies = []
         for _ in range(num_zombies):
-            x_pos = random.randint(400, SCREEN_WIDTH * 2)  # Random x position within a range
+            x_pos = random.randint(400, SCREEN_WIDTH)  # Random x position within a range
             zombie = Zombie(x_pos, SCREEN_HEIGHT - 70)
             zombies.append(zombie)
         return zombies
@@ -74,7 +74,7 @@ class Game:
         platforms = []
         for _ in range(num_platforms):
             x_pos = random.randint(100, SCREEN_WIDTH * 3)
-            y_pos = random.randint(SCREEN_HEIGHT -300, SCREEN_HEIGHT -100)  # Random y position within a range
+            y_pos = random.randint(SCREEN_HEIGHT -300, SCREEN_HEIGHT -60)  # Random y position within a range
             width = random.randint(100, 200)  # Random platform width
             platform = Platform(x_pos, y_pos, width, 20)
             platforms.append(platform)
@@ -85,7 +85,7 @@ class Game:
         coins = []
         for _ in range(num_coints):
             x_pos = random.randint(200, SCREEN_WIDTH * 3)  # Random x position within a range
-            y_pos = random.randint(SCREEN_HEIGHT- 350, SCREEN_HEIGHT - 150)  # Random y position within a range
+            y_pos = random.randint(SCREEN_HEIGHT- 200, SCREEN_HEIGHT - 60)  # Random y position within a range
             coin = Coin(x_pos, y_pos)
             coins.append(coin)
         return coins
@@ -124,7 +124,10 @@ class Game:
                     input_active = False
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_RETURN:
-                        input_active = False
+                        if player_name.strip():  # Ensure player_name is not empty
+                            input_active = False
+                        else:
+                            player_name = "Anonymous"  # Default to "Anonymous" if no name is provided
                     elif event.key == pygame.K_BACKSPACE:
                         player_name = player_name[:-1]
                     else:
@@ -147,6 +150,7 @@ class Game:
         self.highscores.sort(key=lambda x: x[1], reverse=True)
         self.highscores = self.highscores[:10]  # Keep only the top 10 scores
         self.save_highscores()
+
         
 
     def run(self):
@@ -353,8 +357,11 @@ class Game:
         death_rect = death_message.get_rect(center=(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2))
         self.screen.blit(death_message, death_rect)
         pygame.display.flip()
-
+        
         pygame.time.wait(5000)  # Display the message for 2 seconds
+        
+        self.display_highscores()
+
         
     def display_win_message(self):
         # Capture the screen
@@ -375,3 +382,9 @@ class Game:
         pygame.display.flip()
         
         pygame.time.wait(5000)  # Display the message for 2 seconds
+        
+        self.add_highscore()
+        self.display_highscores()
+        self.save_highscores()
+        
+        pygame.time.wait(5000)  # Display the highscores for 2 seconds
