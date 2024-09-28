@@ -21,7 +21,7 @@
         "kind": 5,
         "importPath": "Game.Config",
         "description": "Game.Config",
-        "peekOfCode": "SCREEN_WIDTH = 800\nSCREEN_HEIGHT = 600\nFPS = 60\nBACKGROUND_WIDTH = SCREEN_WIDTH\n# Colors\nWHITE = (255, 255, 255)\nBLACK = (0, 0, 0)\nRED = (255, 0, 0)\nGREEN = (0, 255, 0)",
+        "peekOfCode": "SCREEN_WIDTH = 800\nSCREEN_HEIGHT = 600\nFPS = 60\nBACKGROUND_WIDTH = SCREEN_WIDTH\n# Colors\nWHITE = (255, 255, 255)\nBLACK = (0, 0, 0)\nRED = (255, 0, 0)\nGREEN = (0, 255, 0)\nBLUE = (0, 0, 255)",
         "detail": "Game.Config",
         "documentation": {}
     },
@@ -30,7 +30,7 @@
         "kind": 5,
         "importPath": "Game.Config",
         "description": "Game.Config",
-        "peekOfCode": "SCREEN_HEIGHT = 600\nFPS = 60\nBACKGROUND_WIDTH = SCREEN_WIDTH\n# Colors\nWHITE = (255, 255, 255)\nBLACK = (0, 0, 0)\nRED = (255, 0, 0)\nGREEN = (0, 255, 0)",
+        "peekOfCode": "SCREEN_HEIGHT = 600\nFPS = 60\nBACKGROUND_WIDTH = SCREEN_WIDTH\n# Colors\nWHITE = (255, 255, 255)\nBLACK = (0, 0, 0)\nRED = (255, 0, 0)\nGREEN = (0, 255, 0)\nBLUE = (0, 0, 255)",
         "detail": "Game.Config",
         "documentation": {}
     },
@@ -39,7 +39,7 @@
         "kind": 5,
         "importPath": "Game.Config",
         "description": "Game.Config",
-        "peekOfCode": "FPS = 60\nBACKGROUND_WIDTH = SCREEN_WIDTH\n# Colors\nWHITE = (255, 255, 255)\nBLACK = (0, 0, 0)\nRED = (255, 0, 0)\nGREEN = (0, 255, 0)",
+        "peekOfCode": "FPS = 60\nBACKGROUND_WIDTH = SCREEN_WIDTH\n# Colors\nWHITE = (255, 255, 255)\nBLACK = (0, 0, 0)\nRED = (255, 0, 0)\nGREEN = (0, 255, 0)\nBLUE = (0, 0, 255)",
         "detail": "Game.Config",
         "documentation": {}
     },
@@ -48,7 +48,7 @@
         "kind": 5,
         "importPath": "Game.Config",
         "description": "Game.Config",
-        "peekOfCode": "BACKGROUND_WIDTH = SCREEN_WIDTH\n# Colors\nWHITE = (255, 255, 255)\nBLACK = (0, 0, 0)\nRED = (255, 0, 0)\nGREEN = (0, 255, 0)",
+        "peekOfCode": "BACKGROUND_WIDTH = SCREEN_WIDTH\n# Colors\nWHITE = (255, 255, 255)\nBLACK = (0, 0, 0)\nRED = (255, 0, 0)\nGREEN = (0, 255, 0)\nBLUE = (0, 0, 255)",
         "detail": "Game.Config",
         "documentation": {}
     },
@@ -57,7 +57,7 @@
         "kind": 5,
         "importPath": "Game.Config",
         "description": "Game.Config",
-        "peekOfCode": "WHITE = (255, 255, 255)\nBLACK = (0, 0, 0)\nRED = (255, 0, 0)\nGREEN = (0, 255, 0)",
+        "peekOfCode": "WHITE = (255, 255, 255)\nBLACK = (0, 0, 0)\nRED = (255, 0, 0)\nGREEN = (0, 255, 0)\nBLUE = (0, 0, 255)",
         "detail": "Game.Config",
         "documentation": {}
     },
@@ -66,7 +66,7 @@
         "kind": 5,
         "importPath": "Game.Config",
         "description": "Game.Config",
-        "peekOfCode": "BLACK = (0, 0, 0)\nRED = (255, 0, 0)\nGREEN = (0, 255, 0)",
+        "peekOfCode": "BLACK = (0, 0, 0)\nRED = (255, 0, 0)\nGREEN = (0, 255, 0)\nBLUE = (0, 0, 255)",
         "detail": "Game.Config",
         "documentation": {}
     },
@@ -75,7 +75,7 @@
         "kind": 5,
         "importPath": "Game.Config",
         "description": "Game.Config",
-        "peekOfCode": "RED = (255, 0, 0)\nGREEN = (0, 255, 0)",
+        "peekOfCode": "RED = (255, 0, 0)\nGREEN = (0, 255, 0)\nBLUE = (0, 0, 255)",
         "detail": "Game.Config",
         "documentation": {}
     },
@@ -84,7 +84,16 @@
         "kind": 5,
         "importPath": "Game.Config",
         "description": "Game.Config",
-        "peekOfCode": "GREEN = (0, 255, 0)",
+        "peekOfCode": "GREEN = (0, 255, 0)\nBLUE = (0, 0, 255)",
+        "detail": "Game.Config",
+        "documentation": {}
+    },
+    {
+        "label": "BLUE",
+        "kind": 5,
+        "importPath": "Game.Config",
+        "description": "Game.Config",
+        "peekOfCode": "BLUE = (0, 0, 255)",
         "detail": "Game.Config",
         "documentation": {}
     },
