@@ -4,7 +4,7 @@ import sys
 import numpy as np
 import pygame
 import scipy
-from . Config import BACKGROUND_WIDTH, FPS, GREEN, RED, WHITE, SCREEN_HEIGHT, SCREEN_WIDTH
+from . Config import BACKGROUND_WIDTH, BLACK, FPS, GREEN, RED, WHITE, SCREEN_HEIGHT, SCREEN_WIDTH
 from . Sprites import Score, Player, Zombie, Coin, Platform
 
 pygame.init()
@@ -359,6 +359,10 @@ class Game:
         pygame.display.flip()
         
         pygame.time.wait(5000)  # Display the message for 2 seconds
+        
+        # Clear the screen
+        self.screen.fill(BLACK)
+        pygame.display.flip()
         
         self.display_highscores()
         
