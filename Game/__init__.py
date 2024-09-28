@@ -361,6 +361,8 @@ class Game:
         pygame.time.wait(5000)  # Display the message for 2 seconds
         
         self.display_highscores()
+        
+        pygame.time.wait(5000)  # Display the highscores for 2 seconds
 
         
     def display_win_message(self):
